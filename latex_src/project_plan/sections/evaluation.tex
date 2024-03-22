@@ -1,0 +1,18 @@
+\section{Evaluation}
+% OR: \section{Model}
+\label{sec:evaluation}
+
+Evaluation unsupervised tasks such as topic modeling is inherently difficult. Our task's evaluation criteria consists of, but is not limited to, the following techniques:
+
+\begin{itemize}
+    \item \textbf{Coherence Score} for evaluating topic coherence, reflecting topic quality by measuring the degree of semantic similarity between high scoring words within each topic.
+    \item \textbf{Manual analysis} for evaluation of the results in combination with the preliminary EDA.
+    \item \textbf{Visualization} of the topics so as to help us make conclusions regarding their similarity.
+    \item \textbf{Other quantitative measures} such as silhouette score (for BERTopic), KL-Divergence etc. 
+\end{itemize}
+
+Topic modeling usually requires a lot of manual qualitative evaluation. For quantitative evaluation, machine learning or evaluation-specific libraries such as \textbf{OCTIS}\cite{octis} offer methods for performing the aforementioned in a reliable and consistent manner.
+
+
+
+

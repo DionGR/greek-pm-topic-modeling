@@ -1,0 +1,12 @@
+\section{Methodology}
+\label{sec:methodology}
+
+The following is subject to slight modification or change as the assignment progresses, as issues come up and better techniques are discovered. However the main ideas regarding how we are planning to tackle this task for latent topic identification are:
+\begin{itemize}
+  \item \textbf{Latent Dirichlet Allocation} as a baseline model for our task using techniques shown in the lecture as well as adjustments required for task compatibility.
+  \item \textbf{BERTopic}\cite{bertopic} as a State-of-the-Art model. While BERTopic is multilingual, we would like to experiment with swapping out the built-in sentence transformer for a Greek-specific sentence transformer such as the Greek Media SBERT\cite{media_sbert} for improved results. Further experimentation will be decided on the go.
+  \item \textbf{Zero-Shot Modeling} with the labels extracted using the aforementioned models (with manual editing if need be) so as to see whether we can achieve similar or better results with this technique. A candidate for this is the nli-xlm-r-greek\cite{zeroshot} model. 
+  \item \textbf{Any other technique} that might naturally occur or replace any of the aforementioned on our discretion.
+\end{itemize}
+
+Further techniques such as use of different word embeddings and dimensionality reduction techniques (PCA, UMAP, Linear Discriminant Analysis) will be decided on a need-to basis.

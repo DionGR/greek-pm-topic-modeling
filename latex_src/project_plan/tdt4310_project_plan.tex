@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage{tdt4310}
+\usepackage[norsk,british]{babel}             % Correct Norwegian and English hyphenation
+\usepackage[utf8]{inputenc}                     % Allow for non-ASCII input
+\usepackage[T1]{fontenc}                         % Use rich fonts
+\usepackage{times}
+\usepackage{latexsym}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks, you can choose different colours for different types of links; the defult colours are as below
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+    linkcolor=black,	% internal cross-references; default red
+    urlcolor=blue,	% default magenta
+    citecolor=black,	% default green
+   }
+\urlstyle{same}	% if you want links in the same style as the rest of the text; default is typewriter style
+\usepackage{doi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics, tables and figures
+\usepackage{graphicx}                           
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{tcolorbox}
+\usepackage{framed}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\usepackage{subcaption}
+
+% nicer table dividers
+\usepackage{booktabs}
+
+% only needed if you want to pgfplots to draw figures
+%\usepackage{tikzsymbols}
+%\usepackage{pgfplots}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% comments and notes, useful while working on a draft - change the option 'draft' to 'disable' in the final version
+\usepackage[draft]{todonotes}
+\usepackage{verbatim}     % allow for longer comments
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY STUFF
+
+\usepackage[round]{natbib}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% uncomment if instead using biber as backend
+\begin{comment}
+\usepackage[backend=biber,
+            bibstyle=apa,
+            citestyle=authoryear,
+            natbib=true,
+            url=false,
+            doi=false,
+            hyperref=true,
+            apamaxprtauth=99,
+            maxcitenames=2,
+            language=british,
+            uniquelist=false,
+            ]{biblatex}         % Correct citations
+
+% Bibliography (+ hacks)
+\addbibresource{bib/references.bib}
+\addbibresource{bib/bibliography.bib}
+\DeclareLanguageMapping{british}{british-apa}
+\setlength\bibitemsep{2\itemsep}
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
+\let\citep\parencite
+\let\cite\textcite
+% Make the whole cite a hyperref
+\DeclareCiteCommand{\textcite}
+{\boolfalse{cbx:parens}}
+{\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{textcite}}}
+{\ifbool{cbx:parens}
+    {\bibcloseparen\global\boolfalse{cbx:parens}}
+    {}%
+    \multicitedelim}
+{\usebibmacro{textcite:postnote}}
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+\end{comment}
+% end biber part
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HYPHENATION DEFINITIONS
+
+\usepackage{hyphenat}
+
+% add correct hyphenations as needed
+\hyphenation{hash-tag Sem-Eval}
+\hyphenation{cyber-bully cyber-bullying}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Exploring Topics of the Mid and Post Crisis Greek Reality Through Prime Ministerial Speeches }
+
+\author{
+  Nikolaos Giannakopoulos \and Dionysios Rigatos\\
+  Norwegian University of Science and Technology \\
+  Athens University of Economics and Business \\
+  {\tt \{nikolagi, dionysir\}@stud.ntnu.no}}
+
+\date{Report in TDT4310, NTNU, \today}
+
+\begin{document}
+\maketitle
+
+\input{sections/project_theme}
+\input{sections/data}
+\input{sections/methodology}
+\input{sections/evaluation}
+\input{sections/alternative_projects}
+
+
+\begin{thebibliography}{9}
+\bibitem{pm_website} \url{https://www.primeminister.gr}
+
+\bibitem{pm_scraper} \url{https://github.com/kritonp/primeminister-speeches-scrapper}
+
+\bibitem{spacy} \url{https://spacy.io/models/el}
+
+\bibitem{gr_nlp} \url{https://github.com/nlpaueb/gr-nlp-toolkit}
+
+\bibitem{bertopic} \url{https://maartengr.github.io/BERTopic/index.html}
+
+\bibitem{media_sbert} \url{https://huggingface.co/dimitriz/st-greek-media-bert-base-uncased}
+
+\bibitem{zeroshot}  \url{https://huggingface.co/lighteternal/nli-xlm-r-greek}
+
+\bibitem{octis} \url{https://github.com/MIND-Lab/OCTIS}
+
+\bibitem{eucorpus} \url{ https://www.kaggle.com/datasets/hgultekin/paralel-translation-corpus-in-22-languages}
+
+\bibitem{grcourt} \url{https://huggingface.co/datasets/DominusTea/GreekLegalSum}
+
+\end{thebibliography}
+\end{document}

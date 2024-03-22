@@ -1,0 +1,5 @@
+\section{Data}
+%OR: \section{Tools and Methods}
+\label{sec:data}
+
+Our dataset consists of official transcripts of speeches and statements given by the office of the Greek Prime Minister during the selected period. Those transcripts can be found directly on the official website of the Greek PM\cite{pm_website}. The data will be manually collected using our own customized improvement over an existing Greek PM speech scraper\cite{pm_scraper}. Each speech/statement transcript will be considered a separate data point and we might include additional metadata such as date, prime minister, and political party. All the data will undergo the standard preprocessing needed for most natural language processing tasks. Preprocessing will include, but will not be limited to, lowercasing, tokenization, stopword removal, lemmatization as well as anything else deemed necessary. Libraries such as SpaCy-EL\cite{spacy} or the gr-nlp-toolkit\cite{gr_nlp} are at our disposal for preprocessing.
