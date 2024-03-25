@@ -13,7 +13,7 @@ class WebScraper:
         self.base_url = base_url
         self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
         self.headless = True
-        self.driver = self.init_driver()
+        self.driver = None
         
     def init_driver(self):
         options = Options()
@@ -64,11 +64,14 @@ class WebScraper:
             return None
     
     def run(self, category, data_path="", store=True):
+        self.driver = self.init_driver()
+        
         data_df = None
         file_path = data_path + f"data_{category}.csv"
         
         try:
             data_df = pd.read_csv(file_path)
+            print(f"Cached data found for {category}, loading CSV...")
         except FileNotFoundError:
             category_url = self.base_url + category
             
@@ -77,11 +80,12 @@ class WebScraper:
             
             articles_data = [article for article in articles_data if article is not None]
             
-            self.driver.quit()
-            
             data_df = pd.DataFrame(articles_data)
             
             if store:
+                print(f"Storing {category} data to {file_path}...")
                 data_df.to_csv(file_path, index=False)
+        finally:
+            self.driver.quit()
             
         return data_df
