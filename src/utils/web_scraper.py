@@ -26,7 +26,7 @@ class WebScraper:
         return webdriver.Chrome(options=options)
 
     def fetch_article_links(self, url):
-        n_scrolls = 63
+        n_scrolls = 200
         x_path_link = '//*[@id="td-outer-wrap"]//div[2]/h3/a'
         x_path_btn_pattern = '//*[@id="td-outer-wrap"]/div[3]/div/div/div[1]/div/div[{}]/a'
 
