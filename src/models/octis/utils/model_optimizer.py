@@ -11,9 +11,10 @@ import json
 class OCTISModelOptimizer:
     
     def __init__(self, model: AbstractModel, dataset: Dataset, 
-                 search_space, validation_metric: AbstractMetric, other_metrics: List[AbstractMetric], 
+                 search_space, 
+                 validation_metric: AbstractMetric, other_metrics: List[AbstractMetric], 
                  topk: int = 5,
-                 optimization_runs: int = 20, model_runs: int = 5, save_path: str = 'results/'):
+                 optimization_runs: int = 20, model_runs: int = 5, save_path: str = 'data/hyperparameter_opt'):
         
         self.model = model
         self.dataset = dataset
@@ -39,9 +40,7 @@ class OCTISModelOptimizer:
             topk=self.topk,
             number_of_call=self.optimization_runs, 
             model_runs=self.model_runs, 
-            early_stop=True,
             save_models=False, 
-            plot_model=True,
             extra_metrics=self.other_metrics,
             save_path=self.save_path)
         
@@ -50,9 +49,10 @@ class OCTISModelOptimizer:
         print('Optimizing model took: ' + str(round(duration)) + ' seconds.')
     
         self.optimization_result.save(f"{self.save_path}/opt_results.json")
+        
         self.plot_optimization()
         
-        return self.optimization_result
+        return self.get_best_parameters()
     
     def plot_optimization(self):
         results = json.load(open(f"{self.save_path}/opt_results.json", "r"))
@@ -76,4 +76,11 @@ class OCTISModelOptimizer:
         results = json.load(open(f"{self.save_path}/opt_results.json", "r"))
         max_idx = results["f_val"].index(max(results["f_val"]))
         
-        return [results["x_iters"][parameter][max_idx] for parameter in results["x_iters"].keys()]
+        best_parameters = {parameter: results["x_iters"][parameter][max_idx] for _, parameter in enumerate(self.search_space.keys())}
+        
+        with open(f"{self.save_path}/best_parameters.json", "w") as f:
+            json.dump(best_parameters, f)
+        
+        return best_parameters
+        
+        
