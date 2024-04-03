@@ -25,7 +25,6 @@ search_space = {
         "eta": Categorical({None, 0.1, 0.5, 1.0})
     },
     "hdp": {
-        "num_topics": Categorical({NUM_TOPICS}),
         "chunksize": Categorical({CHUNKSIZE}),
         "alpha": Real(0.0, 1.0),
         "eta": Categorical({None, 0.1, 0.5, 1.0}),
