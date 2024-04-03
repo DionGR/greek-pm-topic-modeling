@@ -1,6 +1,5 @@
 from typing import List
 from utils.web_scraper import WebScraper
-import pandas as pd
 
 
 class GreekPMDataloader:
