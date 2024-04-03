@@ -19,8 +19,8 @@ class OCTISModelEvaluator:
         self.trained = False
         
     def train(self):
-        for model_type, model in self.models:
-            self.model_outputs[model_type] = model.train(self.dataset)
+        for model_type, model in self.models.items():
+            self.model_outputs[model_type] = model.train_model(self.dataset)
             
         self.trained = True
         
@@ -28,13 +28,17 @@ class OCTISModelEvaluator:
         if not self.trained:
             self.train()
                     
-        for model_type, model_output in self.model_outputs:
-            for metric_type, metric in self.metrics:
+        for model_type, model_output in self.model_outputs.items():
+            for metric_type, metric in self.metrics.items():
                 metric_results = metric.score(model_output)
                 
-                self.evaluation_df = self.evaluation_df.append(pd.DataFrame({"model": model_type, "metric": metric_type, "value": metric_results}))
+                self.evaluation_df = pd.concat([self.evaluation_df, pd.DataFrame({
+                    "model": [model_type],
+                    "metric": [metric_type],
+                    "value": [metric_results]
+                })])
                 
-        self.export_results("models/octis/results/evaluation_results.csv")
+        self.export_results("models/octis/data/evaluation/evaluation_results.csv")
                 
         return self.evaluation_df
     

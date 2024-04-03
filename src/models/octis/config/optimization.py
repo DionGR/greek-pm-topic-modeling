@@ -27,7 +27,7 @@ search_space = {
     "hdp": {
         "chunksize": Categorical({CHUNKSIZE}),
         "alpha": Real(0.0, 1.0),
-        "eta": Categorical({None, 0.1, 0.5, 1.0}),
+        "eta": Categorical({0, 0.1, 0.5, 1.0}),
         "gamma": Categorical({0.1, 0.3, 0.5, 0.7, 1.0}),
         "tau": Categorical({32, 64, 128}),
         "kappa": Categorical({0.5, 1.0})
@@ -37,7 +37,6 @@ search_space = {
         "chunksize": Categorical({CHUNKSIZE}),
         "kappa": Categorical({0.5, 1.0}),
         "minimum_probability": Real(0.0, 0.2),
-        "normalize": Categorical({None, True, False}),
     },
     "neural_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
