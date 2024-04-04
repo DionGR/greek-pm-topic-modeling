@@ -1,19 +1,19 @@
-NUM_TOPICS = 13
+NUM_TOPICS = 30
 
-lsi_params = {"num_topics": 13,
+lsi_params = {"num_topics": NUM_TOPICS,
               "chunksize": 4000, 
               "power_iters": 4,
               "extra_samples": 300
               }
 
-nmf_params = {"num_topics": 13, 
+nmf_params = {"num_topics": NUM_TOPICS, 
               "chunksize": 4000, 
               "kappa": 0.5, 
               "minimum_probability": 0.01892522044842238,
               "normalize": True,
               }
 
-lda_params = {"num_topics": 13, 
+lda_params = {"num_topics": NUM_TOPICS, 
               "chunksize": 4000, 
               "passes": 10, 
               "alpha": 0.23805907018308653,
@@ -28,7 +28,7 @@ hdp_params = {"chunksize": 4000,
               "kappa": 0.5
               }
 
-neural_lda_params = {"num_topics": 13,
+neural_lda_params = {"num_topics": NUM_TOPICS,
                      "batch_size": 128, 
                      "lr": 0.0008473675700221679, 
                      "dropout": 0.014222347892753232,
@@ -40,7 +40,7 @@ neural_lda_params = {"num_topics": 13,
                      "solver": "adam"
                      }
 
-prod_lda_params = {"num_topics": 13, 
+prod_lda_params = {"num_topics": NUM_TOPICS, 
                    "batch_size": 128, 
                    "lr": 0.003772716556963602,
                    "dropout": 0.4387154564371324, 
