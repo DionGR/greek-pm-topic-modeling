@@ -26,7 +26,7 @@ class WebScraper:
         return webdriver.Chrome(options=options)
 
     def fetch_article_links(self, url):
-        n_scrolls = 63
+        n_scrolls = 200
         x_path_link = '//*[@id="td-outer-wrap"]//div[2]/h3/a'
         x_path_btn_pattern = '//*[@id="td-outer-wrap"]/div[3]/div/div/div[1]/div/div[{}]/a'
 
@@ -53,13 +53,20 @@ class WebScraper:
 
     @staticmethod
     def parse_article(url):
+        def clean_text(text):
+            text= text.replace("\n", " ").replace("\r", " ").replace("\t", " ").replace(",", " ") .replace(";", " ").replace("\"", " ").replace("'", " ").replace("\'", " ")
+            return str(" ".join(text.split()))
+                       
         try:
             page = urlopen(url)
+            
             soup = BeautifulSoup(page, "html.parser")
             title = soup.title.string
+            
             date = '-'.join(url.split("/")[-4:-1])
             text = " ".join(para.get_text() for para in soup.find_all("p"))
-            return {"date": date, "id": url.split("/")[-1], "url": url, "title": title, "text": text}
+                        
+            return {"date": clean_text(date), "id": clean_text(url.split("/")[-1]), "url": url, "title": clean_text(title), "text": clean_text(text)}
         except Exception as e:
             print(f"Error processing {url}: {e}")
             return None
@@ -86,6 +93,8 @@ class WebScraper:
             if store:
                 print(f"Storing {category} data to {file_path}...")
                 data_df.to_csv(file_path, index=False)
+        except Exception as e:
+            print(f"Error fetching data: {e}")
         finally:
             self.driver.quit()
 
