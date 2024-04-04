@@ -1,26 +1,26 @@
-NUM_TOPICS = 30
+from models.octis.config.optimization import NUM_TOPICS, CHUNKSIZE
 
 lsi_params = {"num_topics": NUM_TOPICS,
-              "chunksize": 4000, 
+              "chunksize": CHUNKSIZE, 
               "power_iters": 4,
               "extra_samples": 300
               }
 
 nmf_params = {"num_topics": NUM_TOPICS, 
-              "chunksize": 4000, 
+              "chunksize": CHUNKSIZE, 
               "kappa": 0.5, 
               "minimum_probability": 0.01892522044842238,
               "normalize": True,
               }
 
 lda_params = {"num_topics": NUM_TOPICS, 
-              "chunksize": 4000, 
+              "chunksize": CHUNKSIZE, 
               "passes": 10, 
               "alpha": 0.23805907018308653,
               "eta": None
               }
 
-hdp_params = {"chunksize": 4000, 
+hdp_params = {"chunksize": CHUNKSIZE, 
               "alpha": 0.06441597102460885, 
               "eta": 1.0, 
               "gamma": 0.3,
