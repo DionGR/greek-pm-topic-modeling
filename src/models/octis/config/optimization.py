@@ -39,7 +39,7 @@ search_space = {
     },
     "neural_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
-        "batch_size": Categorical({128}),
+        "batch_size": Categorical({64}),
         "lr": Real(0.0001, 0.005),
         "dropout": Real(0.0, 0.5),
         "num_epochs": Categorical({50, 100, 200}),
@@ -51,7 +51,7 @@ search_space = {
     },
     "prod_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
-        "batch_size": Categorical({128}),
+        "batch_size": Categorical({64}),
         "lr": Real(0.0001, 0.005),
         "dropout": Real(0.0, 0.5),
         "num_epochs": Categorical({50, 100, 200}),
