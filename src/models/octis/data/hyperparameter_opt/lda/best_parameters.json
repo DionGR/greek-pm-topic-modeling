@@ -1,1 +1,1 @@
-{"num_topics": 13, "chunksize": 4000, "passes": 10, "alpha": 0.23805907018308653, "eta": null}
+{"num_topics": 30, "chunksize": 4000, "passes": 10, "alpha": 0.2454138992346559, "eta": null}

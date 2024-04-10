@@ -7,7 +7,6 @@ NUM_TOPICS = 30
 CHUNKSIZE = 4000
 
 NUM_PROCESSES = 6
-# OPTIMIZATION_RUNS = 30
 MODEL_RUNS = 5
 
 search_space = {
@@ -40,7 +39,7 @@ search_space = {
     },
     "neural_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
-        "batch_size": Categorical({128}),
+        "batch_size": Categorical({64}),
         "lr": Real(0.0001, 0.005),
         "dropout": Real(0.0, 0.5),
         "num_epochs": Categorical({50, 100, 200}),
@@ -52,7 +51,7 @@ search_space = {
     },
     "prod_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
-        "batch_size": Categorical({128}),
+        "batch_size": Categorical({64}),
         "lr": Real(0.0001, 0.005),
         "dropout": Real(0.0, 0.5),
         "num_epochs": Categorical({50, 100, 200}),
