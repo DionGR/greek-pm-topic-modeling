@@ -51,6 +51,9 @@ class OCTISModelEvaluator:
                 
         return self.evaluation_df
     
+    def get_evaluation(self):
+        return self.evaluation_df
+    
     def export_metrics(self, path):
         self.evaluation_df.to_csv(path)
         

@@ -1,1 +1,1 @@
-{"num_topics": 13, "chunksize": 4000, "power_iters": 4, "extra_samples": 300}
+{"num_topics": 30, "chunksize": 4000, "power_iters": 9, "extra_samples": 200}

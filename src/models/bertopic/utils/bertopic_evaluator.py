@@ -1,10 +1,6 @@
 from octis.models.model import AbstractModel
 from octis.evaluation_metrics.metrics import AbstractMetric
-from octis.dataset.dataset import Dataset
-
-from models.octis.utils.model_evaluator import OCTISModelEvaluator
-
-from bertopic import BERTopic
+from octis.evaluation_metrics.coherence_metrics import Coherence
 
 import pandas as pd
 
@@ -13,14 +9,21 @@ from typing import Dict, List
 
 class BERTopicModelEvaluator:
 
-    def __init__(self, models: Dict[str, AbstractModel], metrics: Dict[str, AbstractMetric], datasets: Dict[str, List[str]], topics: int = 10):
+    def __init__(self, models: Dict[str, AbstractModel], metrics: Dict[str, AbstractMetric],
+                 datasets: Dict[str, List[str]], topics: int = 10, topk: int = 5):
 
         self.models = models
         self.metrics = metrics
         self.datasets = datasets
         self.model_outputs = {}
+        self.model_topics = {}
         self.trained = False
         self.topics = topics
+        self.topk = topk
+
+        self.evaluated = {}
+        for model_type, _ in self.models.items():
+            self.evaluated[model_type] = False
 
         evaluation_cols = []
         for metric_type, _ in self.metrics.items():
@@ -29,7 +32,7 @@ class BERTopicModelEvaluator:
         self.evaluation_df = pd.DataFrame(columns=["model"] + evaluation_cols)
 
         topic_cols = []
-        for topic in range(topics):
+        for topic in range(self.topk):
             topic_cols.append("topic_" + str(topic))
 
         self.topics_df = pd.DataFrame(columns=["model"] + topic_cols)
@@ -37,8 +40,11 @@ class BERTopicModelEvaluator:
     def train(self):
         for model_type, model in self.models.items():
             dataset = model_type.split('_')[-1]
-            _ = model.fit_transform(self.datasets[dataset])
-            self.model_outputs[model_type] = model.get_topics()
+            print("Training model: ", model_type)
+            topics, _ = model.fit_transform(self.datasets[dataset])
+            print("Model trained")
+            self.model_outputs[model_type] = model
+            self.model_topics[model_type] = topics
 
         self.trained = True
 
@@ -46,21 +52,35 @@ class BERTopicModelEvaluator:
         if not self.trained:
             self.train()
 
-        for model_type, model_output in self.model_outputs.items():
-            model_output = self.convert_bertopipc_output(model_output)
+        for model_type, model in self.models.items():
+            print("Evaluating model: ", model_type)
             dataset = model_type.split('_')[-1]
+            model_output_list = self.generate_topics_list(self.model_topics[model_type], model)
+            model_output = {'topics': model_output_list}
             model_metric_data = {'model': [model_type], 'dataset': [dataset]}
 
-            for metric_type, metric in self.metrics['coherence_metrics'][dataset].items():
-                model_metric_data[metric_type] = [metric.score(model_output)]
+            if model_output['topics'] is None:
+                print(f"Skipping evaluation for model {model_type} as no topics were generated.")
+                continue
 
-            for metric_type, metric in self.metrics['other_metrics'].items():
-                model_metric_data[metric_type] = [metric.score(model_output)]
+            tokens = self.get_tokens(model, self.datasets[dataset], self.model_topics[model_type])
 
+            for metric_type in self.metrics.keys():
+                if metric_type.startswith('coherence_'):
+                    measure = metric_type[len('coherence_'):]
+                    self.metrics[metric_type] = Coherence(topk=self.topk, measure=measure, texts=tokens)
+
+            for metric_type, metric in self.metrics.items():
+                print(f"Evaluating metric {metric_type} for model {model_type}")
+                score = metric.score(model_output)
+                model_metric_data[metric_type] = [score]
+
+            self.evaluated[model_type] = True
             self.evaluation_df = pd.concat([self.evaluation_df, pd.DataFrame(model_metric_data)], ignore_index=True)
+            print(f"Model {model_type} evaluated")
 
         self.export_metrics("models/bertopic/data/evaluation/evaluation_results.csv")
-        self.export_topics("models/octis/data/evaluation/topics_results.csv")
+        self.export_topics("models/bertopic/data/evaluation/topics_results.csv")
 
         return self.evaluation_df
 
@@ -68,20 +88,43 @@ class BERTopicModelEvaluator:
         self.evaluation_df.to_csv(path)
 
     def export_topics(self, path):
-        for model_type, model_output in self.model_outputs.items():
-            topic_data = {"model": [model_type]}
-            for i, topic in enumerate(model_output["topics"]):
-                topic_data["topic_" + str(i)] = [topic]
-                if i == self.topics - 1:
-                    break
-            self.topics_df = pd.concat([self.topics_df, pd.DataFrame(topic_data)], ignore_index=True)
+        for model_type, model in self.models.items():
+            print("Exporting topics for model: ", model_type)
 
+            if not self.evaluated[model_type]:
+                print(f"Skipping topic export for model {model_type} as it was not evaluated.")
+                continue
+
+            topic_data = {"model": [model_type]}
+            topics = self.model_topics[model_type]
+            topic_words = self.generate_topics_list(topics, model)
+            for i, topic in enumerate(topic_words):
+                topic_data["topic_" + str(i)] = [topic]  # Wrap topic in a list
+            self.topics_df = pd.concat([self.topics_df, pd.DataFrame(topic_data)], ignore_index=True)
         self.topics_df.to_csv(path)
 
-    def convert_bertopipc_output(self, topics_dict):
-        topics_list = []
-        for topic_id, words in topics_dict.items():
-            topic_words = [word for word, _ in topics_dict[topic_id]]
-            topics_list.append(topic_words)
+    @staticmethod
+    def generate_topics_list(topics, model):
+        num_unique_topics = len(set(topics))
+        if num_unique_topics == 1:
+            print(f"Warning: Only one unique topic was generated by the model.")
+            print("No metrics can be calculated.")
+            topic_words = None
+        else:
+            topic_words = [[words for words, _ in model.get_topic(topic)] for topic in range(num_unique_topics - 1)]
+        return topic_words
 
-        return topics_list
+    @staticmethod
+    def get_tokens(model, dataset, topics):
+        documents = pd.DataFrame({"Document": dataset,
+                                  "ID": range(len(dataset)),
+                                  "Topic": topics})
+
+        documents_per_topic = documents.groupby(['Topic'], as_index=False).agg({'Document': ' '.join})
+        cleaned_docs = model._preprocess_text(documents_per_topic.Document.values)
+
+        vectorizer = model.vectorizer_model
+        analyzer = vectorizer.build_analyzer()
+
+        tokens = [analyzer(doc) for doc in cleaned_docs]
+        return tokens
