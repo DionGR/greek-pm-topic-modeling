@@ -1,7 +1,85 @@
-,model,coherence_c_npmi,coherence_c_v,coherence_u_mass,coherence_c_uci,diversity_topic,similarity_rbo,similarity_pjs,dataset
-0,gr_docs,0.08201556443252381,0.6826067550999672,-0.27535584943934216,-0.798458053977075,0.7310344827586207,0.05554140394088669,0.05318113331236914,docs
-1,gr_media_docs,0.08701661337219616,0.6864877446648165,-0.37445485222738284,-0.5813245112200187,0.7241379310344828,0.07748885467980293,0.047450861772416156,docs
-2,gr_sentences,0.10369605411881752,0.5019314876218379,-0.43737440457490717,-2.220314243312861,0.9793103448275862,0.0010593842364532424,0.0010514792728948809,sentences
-3,gr_media_sentences,0.17311644474763882,0.6040861002645912,-0.3147210970807232,-0.5011885685703802,1.0,0.0,0.00012963443090484831,sentences
-4,multilingual_docs,0.09431412624150924,0.7024014330722217,-0.1990945167704795,-0.6530812929009807,0.6086956521739131,0.10437968379446638,0.08208471655772762,docs
-5,multilingual_sentences,0.14238982861901323,0.582601988638817,-0.3009657890531881,-1.3310628784850906,0.9724137931034482,0.0008026847290640848,0.0010514792728948809,sentences
+,model,Number of topics,coherence_c_npmi,coherence_c_v,coherence_u_mass,coherence_c_uci,diversity_topic,similarity_rbo,similarity_pjs,dataset
+0,gr_docs,29,0.082015564,0.682606755,-0.275355849,-0.798458054,0.731034483,0.055541404,0.053181133,docs
+1,gr_media_docs,29,0.087016613,0.686487745,-0.374454852,-0.581324511,0.724137931,0.077488855,0.047450862,docs
+2,gr_sentences,29,0.103696054,0.501931488,-0.437374405,-2.220314243,0.979310345,0.001059384,0.001051479,sentences
+3,gr_media_sentences,29,0.173116445,0.6040861,-0.314721097,-0.501188569,1,0,0.000129634,sentences
+4,multilingual_docs,23,0.094314126,0.702401433,-0.199094517,-0.653081293,0.608695652,0.104379684,0.082084717,docs
+5,multilingual_sentences,29,0.142389829,0.582601989,-0.300965789,-1.331062878,0.972413793,0.000802685,0.001051479,sentences
+6,"model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 5}_docs",33,0.002157288,0.515153355,-0.572344002,-3.171619301,0.945454545,0.003323864,0.002238425,docs
+7,"model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 10}_docs",25,-0.016818684,0.531877824,-0.52012471,-3.350448729,0.953846154,0.004162738,0.004885819,docs
+8,"model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 15}_docs",16,-0.05778213,0.490224817,-0.364671621,-3.708111658,0.858823529,0.022620846,0.021906428,docs
+9,"model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",50,-0.024355909,0.497152002,-0.716726914,-3.53154347,0.932,0.003398269,0.004081211,docs
+10,"model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",30,0.000406657,0.529235299,-0.497741359,-3.11795159,0.886666667,0.010701874,0.011062872,docs
+11,"model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 5}_docs",48,0.058271044,0.593168281,-0.563081467,-1.975708886,0.914893617,0.005457091,0.003856126,docs
+12,"model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 10}_docs",30,0.020940985,0.608462725,-0.401734838,-2.350732558,0.92,0.007094241,0.009464669,docs
+13,"model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 15}_docs",5,0.191495817,0.769424421,-0.111968439,0.607681798,1,0,0.005263158,docs
+14,"model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",39,0.018108493,0.578886963,-0.426068624,-2.551735779,0.943589744,0.003755735,0.004478928,docs
+15,"model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",9,0.08815093,0.710578395,-0.160746271,-0.878624042,0.911111111,0.028527778,0.029105989,docs
+16,"model_umap_{'n_neighbors': 5, 'n_components': 5}_hdbscan_{'min_cluster_size': 5}_docs",34,0.057716137,0.608111491,-0.479168713,-1.774716084,0.911764706,0.007193717,0.003739207,docs
+17,"model_umap_{'n_neighbors': 5, 'n_components': 5}_hdbscan_{'min_cluster_size': 10}_docs",2,0.168221156,0.796014329,-0.081093022,0.603090213,1,0,0.052631579,docs
+18,"model_umap_{'n_neighbors': 5, 'n_components': 5}_hdbscan_{'min_cluster_size': 15}_docs",14,0.088874405,0.676498815,-0.155037664,-0.949065848,0.871428571,0.025504231,0.019327164,docs
+19,"model_umap_{'n_neighbors': 5, 'n_components': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",39,-0.03887311,0.515070433,-0.582305635,-3.710930683,0.938461538,0.003076761,0.002872098,docs
+20,"model_umap_{'n_neighbors': 5, 'n_components': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",13,0.103451514,0.666099102,-0.261062698,-0.612625394,0.907692308,0.017232244,0.006822612,docs
+21,"model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 5}_docs",36,-0.004673645,0.551326023,-0.549320427,-3.278310112,0.927777778,0.005974246,0.004069269,docs
+22,"model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 10}_docs",44,-0.012976794,0.497046176,-0.590183718,-3.333242428,0.95,0.003003499,0.002838523,docs
+23,"model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 15}_docs",28,-0.051203594,0.525585846,-0.460495631,-3.782219054,0.864285714,0.014661958,0.011892074,docs
+24,"model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",6,-0.068886603,0.519205667,-0.244115878,-4.619268475,1,0,0.021052632,docs
+25,"model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",36,-0.009962471,0.526580055,-0.487672049,-3.279482942,0.914285714,0.007490361,0.007326274,docs
+26,"model_umap_{'n_neighbors': 3, 'n_components': 3, 'min_dist': 0.01}_hdbscan_{'min_cluster_size': 5}_docs",29,0.053415783,0.60821936,-0.494404415,-2.080224816,0.937931034,0.006808707,0.003038148,docs
+27,"model_umap_{'n_neighbors': 3, 'n_components': 3, 'min_dist': 0.01}_hdbscan_{'min_cluster_size': 10}_docs",25,0.055157782,0.652124488,-0.326604938,-1.401351265,0.912,0.009911083,0.009557104,docs
+28,"model_umap_{'n_neighbors': 3, 'n_components': 3, 'min_dist': 0.01}_hdbscan_{'min_cluster_size': 15}_docs",18,0.053866257,0.672599934,-0.193042292,-1.319037876,0.844444444,0.02177049,0.016414627,docs
+29,"model_umap_{'n_neighbors': 3, 'n_components': 3, 'min_dist': 0.01}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",32,0.048882119,0.601036797,-0.458200098,-2.004385401,0.9125,0.007326855,0.005541754,docs
+30,"model_umap_{'n_neighbors': 3, 'n_components': 3, 'min_dist': 0.01}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",17,0.109402794,0.716483418,-0.171690963,-0.103221023,0.823529412,0.031009779,0.024197424,docs
+31,"model_umap_{'n_neighbors': 5, 'n_components': 5, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 5}_docs",22,0.142259865,0.711324466,-0.401597263,-0.296487105,0.945454545,0.00703368,0.003215108,docs
+32,"model_umap_{'n_neighbors': 5, 'n_components': 5, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 10}_docs",30,0.055053906,0.634122918,-0.372761663,-1.754785629,0.926666667,0.004484793,0.004073402,docs
+33,"model_umap_{'n_neighbors': 5, 'n_components': 5, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 15}_docs",2,0.168193564,0.795902575,-0.101366277,0.602914411,1,0,0.052631579,docs
+34,"model_umap_{'n_neighbors': 5, 'n_components': 5, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",17,0.118205227,0.721819144,-0.279058186,-0.37003754,0.917647059,0.009583346,0.008779518,docs
+35,"model_umap_{'n_neighbors': 5, 'n_components': 5, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",10,0.146154754,0.747290774,-0.236368607,0.191486183,0.96,0.008842,0.004678363,docs
+36,model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 5}_docs,50,-0.042064056,0.482568776,-0.735048164,-3.866838674,0.939473684,0.001886198,0.001842437,docs
+37,model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 10}_docs,50,-0.065596661,0.457621284,-0.716194473,-4.400087043,0.945454545,0.002427983,0.003422078,docs
+38,model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 15}_docs,21,-0.034200669,0.511100125,-0.174115749,-3.574757226,0.847619048,0.0266185,0.029150198,docs
+39,"model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",30,-0.049282098,0.494957827,-0.458557707,-4.104134727,0.926666667,0.004534345,0.006950128,docs
+40,"model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",35,-0.025430644,0.510821029,-0.422473458,-3.362292934,0.88,0.009278597,0.009254827,docs
+41,model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 5}_docs,30,0.027351378,0.572831971,-0.514117357,-2.528696754,0.94,0.007280989,0.003467453,docs
+42,model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 10}_docs,35,0.044792023,0.647669601,-0.459290672,-2.016234755,0.925714286,0.004904748,0.005988298,docs
+43,model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 15}_docs,2,0.050383367,0.668293232,1.00E-12,-1.53025922,1,0,0,docs
+44,"model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",50,-0.00075471,0.545588454,-0.596946448,-3.140293791,0.938461538,0.002313714,0.002798415,docs
+45,"model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",2,0.166586161,0.808721835,1.00E-12,1.364878279,0.9,0.13122,0.052631579,docs
+46,model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 5}_docs,22,0.107892534,0.698123292,-0.424172475,-0.693643025,0.927272727,0.008166429,0.003092997,docs
+47,model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 10}_docs,30,0.002152209,0.563832626,-0.557641329,-2.689642351,0.933333333,0.00406769,0.003632136,docs
+48,model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 15}_docs,2,0.169255425,0.803755467,1.00E-12,1.456310033,1,0,0.25,docs
+49,"model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",36,0.071608336,0.644289602,-0.417378113,-1.52303466,0.883333333,0.006866817,0.005696704,docs
+50,"model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",23,0.005847043,0.549730982,-0.367575514,-2.855287029,0.930434783,0.008942055,0.00594449,docs
+51,model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 5}_docs,50,-0.016891708,0.482892616,-0.848759523,-3.454363741,0.928358209,0.002624957,0.002248468,docs
+52,model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 10}_docs,24,0.0675626,0.643045689,-0.382112234,-1.797641111,0.9,0.010737101,0.006385137,docs
+53,model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 15}_docs,12,0.119954201,0.742722508,-0.208119149,-0.538957546,0.9,0.016930909,0.008661173,docs
+54,"model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",32,0.047906385,0.608224825,-0.43331687,-2.108154129,0.9,0.009340262,0.008429493,docs
+55,"model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",19,0.034119826,0.583679799,-0.299255102,-2.363566039,0.915789474,0.010319006,0.008512926,docs
+56,model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 5}_docs,50,-0.001187316,0.522160524,-0.776596407,-3.167792792,0.940983607,0.002331626,0.001444976,docs
+57,model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 10}_docs,27,0.068138439,0.627609111,-0.362510699,-1.79415849,0.948148148,0.003558077,0.004054463,docs
+58,model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 15}_docs,16,0.06050855,0.657313181,-0.187567427,-1.450439864,0.8875,0.020279625,0.010331384,docs
+59,"model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",22,0.071167077,0.666541699,-0.416138602,-1.481452038,0.918181818,0.009871602,0.005679678,docs
+60,"model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",20,-0.006560367,0.56788371,-0.445188722,-3.147853855,0.96,0.004121053,0.003601108,docs
+61,model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 5}_docs,48,-0.021229913,0.521671261,-0.595651188,-3.400049011,0.954166667,0.001697004,0.001815439,docs
+62,model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 10}_docs,20,0.089286345,0.663178893,-0.310427329,-1.003407126,0.94,0.005977184,0.005263158,docs
+63,model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 15}_docs,17,0.026990975,0.606274889,-0.23409834,-2.245747516,0.941176471,0.005290809,0.009416925,docs
+64,"model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",29,0.037291312,0.599711346,-0.465811423,-2.229634209,0.95862069,0.003063768,0.004328773,docs
+65,"model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 15}_docs",13,0.095847329,0.726971082,-0.241384162,-0.613154482,0.907692308,0.01548,0.013045434,docs
+66,"reduced_model_umap_{'n_neighbors': 3, 'n_components': 3}_hdbscan_{'min_cluster_size': 5}_docs",29,0.08607942,0.636996046,-0.46272135,-1.165353345,0.931034483,0.004969618,0.004055101,docs
+67,"reduced_model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",29,0.088644732,0.633793779,-0.429221162,-1.258161159,0.931034483,0.005461675,0.006768739,docs
+68,reduced_model_umap_{'n_components': 3}_hdbscan_{'min_cluster_size': 5}_docs,29,0.059213821,0.589479264,-0.455559834,-1.724494884,0.95862069,0.002596589,0.003412648,docs
+69,reduced_model_umap_{'n_components': 5}_hdbscan_{'min_cluster_size': 5}_docs,29,0.071365032,0.683844493,-0.423329393,-1.497151806,0.95862069,0.004268485,0.002621496,docs
+70,"reduced_model_umap_{'n_neighbors': 2, 'n_components': 2}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",29,0.014098841,0.567564511,-0.450043237,-2.729496695,0.882758621,0.008446367,0.00985836,docs
+71,"reduced_model_umap_{'n_neighbors': 2, 'n_components': 2, 'min_dist': 0.001}_hdbscan_{'min_cluster_size': 10}_docs",29,-0.056570851,0.495477469,-0.513890789,-4.096041438,0.951724138,0.004655172,0.006825295,docs
+72,reduced_model_umap_{'n_components': 2}_hdbscan_{'min_cluster_size': 5}_docs,29,0.075289065,0.659130267,-0.438282919,-1.306879726,0.896551724,0.007821022,0.005226471,docs
+73,reduced_model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 5}_docs,29,0.002912366,0.567594087,-0.521754777,-2.915486626,0.875862069,0.010703313,0.004663239,docs
+74,reduced_model_umap_{'n_neighbors': 2}_hdbscan_{'min_cluster_size': 10}_docs,29,-0.021666235,0.564398455,-0.439483776,-3.390810738,0.868965517,0.012247094,0.013605261,docs
+75,"reduced_model_umap_{'n_neighbors': 5}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",29,0.042524485,0.62189536,-0.394957199,-2.090022812,0.924137931,0.005718658,0.004832907,docs
+76,reduced_model_umap_{'n_neighbors': 3}_hdbscan_{'min_cluster_size': 10}_docs,29,0.001712027,0.57924801,-0.463640429,-2.77198411,0.896551724,0.010686909,0.007687406,docs
+77,"model_umap_{'n_neighbors': 10, 'n_components': 10}_hdbscan_{'min_cluster_size': 10}_docs",29,0.011601485,0.558912914,-0.550303977,-2.681712139,0.961538462,0.002270077,0.004033765,docs
+78,"model_umap_{'n_neighbors': 20, 'n_components': 10}_hdbscan_{'min_cluster_size': 10}_docs",29,0.070622313,0.615725355,-0.394776986,-1.607834018,0.956521739,0.003022826,0.006175634,docs
+79,"model_umap_{'n_neighbors': 15, 'n_components': 10}_hdbscan_{'min_cluster_size': 10}_docs",29,0.053931796,0.623040733,-0.414288022,-1.782939325,0.933333333,0.006720978,0.004969265,docs
+80,"model_umap_{'n_neighbors': 15, 'n_components': 10}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",24,0.054683016,0.653181092,-0.41470275,-1.836227996,0.917241379,0.007768485,0.006047489,docs
+81,"model_umap_{'n_neighbors': 10, 'n_components': 5}_hdbscan_{'min_cluster_size': 5}_docs",23,0.069616044,0.672810535,-0.448569109,-1.371737397,0.924137931,0.004680333,0.004448664,docs
+82,"model_umap_{'n_neighbors': 15, 'n_components': 10}_hdbscan_{'min_cluster_size': 5}_docs",29,0.046008185,0.631464001,-0.523379611,-2.055211057,0.924137931,0.005013399,0.002895169,docs
+83,"model_umap_{'n_neighbors': 15, 'n_components': 10, 'min_dist': 0.1}_hdbscan_{'min_cluster_size': 10, 'min_samples': 5}_docs",29,0.02240175,0.600893955,-0.525615229,-2.537438842,0.965517241,0.001883128,0.004698189,docs
