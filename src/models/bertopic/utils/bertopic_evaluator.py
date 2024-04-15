@@ -9,18 +9,29 @@ from typing import Dict, List
 
 class BERTopicModelEvaluator:
 
-    def __init__(self, models: Dict[str, AbstractModel], metrics: Dict[str, AbstractMetric],
-                 datasets: Dict[str, List[str]], topics: int = 10, topk: int = 5):
+    def __init__(self, 
+                 models: Dict[str, AbstractModel], 
+                 metrics: Dict[str, AbstractMetric],
+                 train_dataset: List[str] = [],
+                 test_dataset: List[str] = [],
+                 val_dataset: List[str] = [],
+                 topics: int = 10, 
+                 topk: int = 5,
+                 eval_type: str = 'val',
+                 granularity: str = 'docs'
+                 ):
 
         self.models = models
         self.metrics = metrics
-        self.datasets = datasets
-        self.model_outputs = {}
-        self.model_topics = {}
+        self.datasets = {'train': train_dataset, 'test': test_dataset, 'val': val_dataset}
         self.trained = False
         self.topics = topics
         self.topk = topk
-
+        self.model_outputs = {}
+        self.model_topics = {}
+        self.eval_type = eval_type
+        self.granularity = granularity
+        
         self.evaluated = {}
         for model_type, _ in self.models.items():
             self.evaluated[model_type] = False
@@ -39,11 +50,10 @@ class BERTopicModelEvaluator:
 
     def train(self):
         for model_type, model in self.models.items():
-            dataset = model_type.split('_')[-1]
             print("Training model: ", model_type)
-            topics, _ = model.fit_transform(self.datasets[dataset])
-            print("Model trained")
-            self.model_outputs[model_type] = model
+            topics, _ = model.fit_transform(self.datasets['train'])
+            print("Model training complete.")
+            
             self.model_topics[model_type] = topics
 
         self.trained = True
@@ -54,16 +64,16 @@ class BERTopicModelEvaluator:
 
         for model_type, model in self.models.items():
             print("Evaluating model: ", model_type)
-            dataset = model_type.split('_')[-1]
-            model_output_list = self.generate_topics_list(self.model_topics[model_type], model)
-            model_output = {'topics': model_output_list}
-            model_metric_data = {'model': [model_type], 'dataset': [dataset]}
+            
+            model_output = model.transform(self.datasets[self.eval_type])
+            
+            model_metric_data = {'model': [model_type], 'dataset': [self.datasets[self.eval_type]]}
 
             if model_output['topics'] is None:
                 print(f"Skipping evaluation for model {model_type} as no topics were generated.")
                 continue
 
-            tokens = self.get_tokens(model, self.datasets[dataset], self.model_topics[model_type])
+            tokens = self.get_tokens(model, self.datasets[self.eval_type], self.model_topics[model_type])
 
             for metric_type in self.metrics.keys():
                 if metric_type.startswith('coherence_'):
@@ -75,14 +85,20 @@ class BERTopicModelEvaluator:
                 score = metric.score(model_output)
                 model_metric_data[metric_type] = [score]
 
+            metric_df = pd.DataFrame(model_metric_data)
             self.evaluated[model_type] = True
-            self.evaluation_df = pd.concat([self.evaluation_df, pd.DataFrame(model_metric_data)], ignore_index=True)
+            self.evaluation_df = pd.concat([self.evaluation_df, metric_df], ignore_index=True)
             print(f"Model {model_type} evaluated")
+            
+            metric_df.to_csv(f"models/bertopic/data/evaluation/{self.granularity}_gran/{model_type}.csv")
 
-        self.export_metrics("models/bertopic/data/evaluation/evaluation_results.csv")
-        self.export_topics("models/bertopic/data/evaluation/topics_results.csv")
+        self.export_metrics(f"models/bertopic/data/evaluation/{self.granularity}_gran/evaluation_results.csv")
+        self.export_topics(f"models/bertopic/data/evaluation/{self.granularity}_gran/topics_results.csv")
 
         return self.evaluation_df
+    
+    def export_df(self, df, path):
+        df.to_csv(path)
 
     def export_metrics(self, path):
         self.evaluation_df.to_csv(path)
