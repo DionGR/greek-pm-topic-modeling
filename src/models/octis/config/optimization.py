@@ -2,7 +2,7 @@ from skopt.space.space import Real, Categorical, Integer
 
 OPTIMIZATION_RESULT_PATH = "data/hyperparameter_opt/"
 
-TOP_K = 5
+TOP_K = 7
 NUM_TOPICS = 30
 CHUNKSIZE = 4000
 

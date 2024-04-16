@@ -1,13 +1,11 @@
 from spacy.lang.el.stop_words import STOP_WORDS as el_stop
 from spacy.lang.en.stop_words import STOP_WORDS as en_stop
 
-from models.bertopic.config.embeddings import st_models
-
 from octis.evaluation_metrics.diversity_metrics import TopicDiversity
 from octis.evaluation_metrics.similarity_metrics import RBO, PairwiseJaccardSimilarity
 
 
-TOP_K = 5
+TOP_K = 7
 NUM_TOPICS = 30
 STOPWORDS = list(set(el_stop).union(set(en_stop)))
 
@@ -22,14 +20,14 @@ metrics = {
 }
 
 """ SentenceTransformer parameters """
-EMBEDDING_MODEL = st_models["gr_media"]
+EMBEDDING_MODEL = 'dimitriz/st-greek-media-bert-base-uncased'
 
 """ CountVectorizer parameters """
 vectorizer_params = {
     "ngram_range": (1, 2),
     "stop_words": STOPWORDS,
-    "max_df": 0.85,
-    "min_df": 0.01,
+    "max_df": 0.95,
+    "min_df": 0.005,
 }
 
 """ c-TF-IDF parameters """

@@ -12,24 +12,20 @@ class BERTopicModelEvaluator:
     def __init__(self, 
                  models: Dict[str, AbstractModel], 
                  metrics: Dict[str, AbstractMetric],
-                 train_dataset: List[str] = [],
-                 test_dataset: List[str] = [],
-                 val_dataset: List[str] = [],
+                 dataset: List[str],
                  topics: int = 10, 
-                 topk: int = 5,
-                 eval_type: str = 'val',
+                 top_k: int = 7,
                  granularity: str = 'docs'
                  ):
 
         self.models = models
         self.metrics = metrics
-        self.datasets = {'train': train_dataset, 'test': test_dataset, 'val': val_dataset}
+        self.dataset = dataset
         self.trained = False
         self.topics = topics
-        self.topk = topk
+        self.top_k = top_k
         self.model_outputs = {}
         self.model_topics = {}
-        self.eval_type = eval_type
         self.granularity = granularity
         
         self.evaluated = {}
@@ -43,7 +39,7 @@ class BERTopicModelEvaluator:
         self.evaluation_df = pd.DataFrame(columns=["model"] + evaluation_cols)
 
         topic_cols = []
-        for topic in range(self.topk):
+        for topic in range(self.top_k):
             topic_cols.append("topic_" + str(topic))
 
         self.topics_df = pd.DataFrame(columns=["model"] + topic_cols)
@@ -51,11 +47,11 @@ class BERTopicModelEvaluator:
     def train(self):
         for model_type, model in self.models.items():
             print("Training model: ", model_type)
-            topics, _ = model.fit_transform(self.datasets['train'])
+            topics, _ = model.fit_transform(self.dataset)
             print("Model training complete.")
-            
+            self.model_outputs[model_type] = model
             self.model_topics[model_type] = topics
-
+            
         self.trained = True
 
     def evaluate(self):
@@ -65,20 +61,20 @@ class BERTopicModelEvaluator:
         for model_type, model in self.models.items():
             print("Evaluating model: ", model_type)
             
-            model_output = model.transform(self.datasets[self.eval_type])
-            
-            model_metric_data = {'model': [model_type], 'dataset': [self.datasets[self.eval_type]]}
+            model_output_list = self.generate_topics_list(self.model_topics[model_type], model)
+            model_output = {'topics': model_output_list}
+            model_metric_data = {'model': [model_type]}
 
             if model_output['topics'] is None:
                 print(f"Skipping evaluation for model {model_type} as no topics were generated.")
                 continue
 
-            tokens = self.get_tokens(model, self.datasets[self.eval_type], self.model_topics[model_type])
+            tokens = self.get_tokens(model, self.dataset, self.model_topics[model_type])
 
             for metric_type in self.metrics.keys():
                 if metric_type.startswith('coherence_'):
                     measure = metric_type[len('coherence_'):]
-                    self.metrics[metric_type] = Coherence(topk=self.topk, measure=measure, texts=tokens)
+                    self.metrics[metric_type] = Coherence(topk=self.top_k, measure=measure, texts=tokens)
 
             for metric_type, metric in self.metrics.items():
                 print(f"Evaluating metric {metric_type} for model {model_type}")
@@ -88,14 +84,14 @@ class BERTopicModelEvaluator:
             metric_df = pd.DataFrame(model_metric_data)
             self.evaluated[model_type] = True
             self.evaluation_df = pd.concat([self.evaluation_df, metric_df], ignore_index=True)
-            print(f"Model {model_type} evaluated")
+            print(f"Model {model_type} evaluated, generated {len(model_output_list)} topics.")
             
-            metric_df.to_csv(f"models/bertopic/data/evaluation/{self.granularity}_gran/{model_type}.csv")
+            metric_df.to_csv(f"models/bertopic/data/evaluation/{self.granularity}_gran/individual/{model_type}.csv")
 
         self.export_metrics(f"models/bertopic/data/evaluation/{self.granularity}_gran/evaluation_results.csv")
         self.export_topics(f"models/bertopic/data/evaluation/{self.granularity}_gran/topics_results.csv")
 
-        return self.evaluation_df
+        return self.evaluation_df, self.topics_df
     
     def export_df(self, df, path):
         df.to_csv(path)
@@ -116,18 +112,21 @@ class BERTopicModelEvaluator:
             topic_words = self.generate_topics_list(topics, model)
             for i, topic in enumerate(topic_words):
                 topic_data["topic_" + str(i)] = [topic]  # Wrap topic in a list
+                
             self.topics_df = pd.concat([self.topics_df, pd.DataFrame(topic_data)], ignore_index=True)
         self.topics_df.to_csv(path)
 
     @staticmethod
     def generate_topics_list(topics, model):
         num_unique_topics = len(set(topics))
+        
         if num_unique_topics == 1:
             print(f"Warning: Only one unique topic was generated by the model.")
             print("No metrics can be calculated.")
             topic_words = None
         else:
             topic_words = [[words for words, _ in model.get_topic(topic)] for topic in range(num_unique_topics - 1)]
+            
         return topic_words
 
     @staticmethod
@@ -143,4 +142,5 @@ class BERTopicModelEvaluator:
         analyzer = vectorizer.build_analyzer()
 
         tokens = [analyzer(doc) for doc in cleaned_docs]
+
         return tokens

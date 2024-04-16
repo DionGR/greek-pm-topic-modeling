@@ -6,37 +6,29 @@ import itertools
 
 
 """ Dimensionality Reduction Configurations """
-# umap_configs = {
-#         "n_components": [5, 10, 15, 20, 30, 50],
-#         "n_neighbors": [5, 10, 15, 20, 25, 30, 50]
-# }  
 umap_configs = {
-        "n_components": [5],
-        "n_neighbors": [5]
+        "n_components": [5, 10, 15, 20, 30],
+        "n_neighbors": [5, 10, 15, 20],
+        "min_dist": [0.05, 0.1, 0.2]
 }  
 
-# pca_configs = {
-#         "n_components": [10, 15, 20, 30, 50]
-# }
+pca_configs = {
+        "n_components": [15, 20, 50]
+}
 
-# tsvd_configs = {
-#         "n_components": [50, 100, 150]
-# }
+tsvd_configs = {
+        "n_components": [150]
+}
 
-# basic_configs = {
-# }
+basic_configs = {
+}
 
 """ Clustering Configurations """
 
-# hdbscan_configs = {
-#         "min_cluster_size": [10, 20, 30, 40, 50, 75, 100],
-#         "metric": ["euclidean", "jaccard"],
-#         "prediction_data": [True]
-#     }
 hdbscan_configs = {
-        "min_cluster_size": [10],
+        "min_cluster_size": [7, 10, 15, 20],
         "metric": ["euclidean"],
-        "prediction_data": [True]
+        "prediction_data": [False]
     }
 
 """ Algorithm Dictionary """
@@ -61,9 +53,9 @@ def all_config_combinations():
     # Prepare model configurations
     dim_reduction_configs = {
         "UMAP": umap_configs,
-        # "PCA": pca_configs,
-        # "TSVD": tsvd_configs,
-        # "BASIC": basic_configs
+        "PCA": pca_configs,
+        "TSVD": tsvd_configs,
+        "BASIC": basic_configs
     }
 
     clustering_configs = {
