@@ -60,7 +60,7 @@ class BERTopicModelEvaluator:
             model_output = {'topics': model_output_list}
             model_metric_data = {'model': [model_type]}
 
-            if model_output['topics'] is None:
+            if model_output['topics'] is None or len(model_output['topics']) == 1:
                 print(f"Skipping evaluation for model {model_type} as no topics were generated.")
                 continue
 
@@ -78,6 +78,10 @@ class BERTopicModelEvaluator:
 
             metric_df = pd.DataFrame(model_metric_data)
             topics_df = self.get_model_topics_df(model_type)
+            
+            if topics_df is None:
+                continue
+            
             total_df = pd.concat([metric_df, topics_df], axis=1)
             
             self.evaluated[model_type] = True
@@ -101,6 +105,8 @@ class BERTopicModelEvaluator:
         topic_data = {"model": [model_type]}
         topics = self.model_topics[model_type]
         topic_words = self.generate_topics_list(topics, self.model_outputs[model_type])
+        if topic_words is None:
+            return None
         for i, topic in enumerate(topic_words):
             topic_data["topic_" + str(i)] = [topic]
             
