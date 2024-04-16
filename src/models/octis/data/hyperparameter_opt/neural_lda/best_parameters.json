@@ -1,0 +1,1 @@
+{"num_topics": 30, "batch_size": 64, "lr": 0.004868879360882034, "dropout": 0.007311675749379744, "num_epochs": 200, "momentum": 0.8929994385857404, "num_layers": 1, "num_neurons": 285, "activation": "softplus", "solver": "adam"}

@@ -8,7 +8,7 @@ from typing import Dict
 
 class OCTISModelEvaluator: 
     
-    def __init__(self, models: Dict[str, AbstractModel], dataset: Dataset, metrics: Dict[str, AbstractMetric], topics: int = 10):
+    def __init__(self, models: Dict[str, AbstractModel], dataset: Dataset, metrics: Dict[str, AbstractMetric], topics: int = 30):
         self.models = models
         self.dataset = dataset
         self.metrics = metrics

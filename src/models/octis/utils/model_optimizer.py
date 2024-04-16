@@ -13,7 +13,7 @@ class OCTISModelOptimizer:
     def __init__(self, model: AbstractModel, dataset: Dataset, 
                  search_space, 
                  validation_metric: AbstractMetric, other_metrics: List[AbstractMetric], 
-                 topk: int = 5,
+                 topk: int = 7,
                  optimization_runs: int = 20, model_runs: int = 5, save_path: str = 'data/hyperparameter_opt'):
         
         self.model = model

@@ -65,6 +65,10 @@ class BERTopicModelEvaluator:
                 continue
 
             tokens = self.get_tokens(model, self.dataset, self.model_topics[model_type])
+            
+            if tokens is None or len(tokens) == 1 or len(tokens) == 0:
+                print(f"Skipping evaluation for model {model_type} as no tokens were generated.")
+                continue
 
             for metric_type in self.metrics.keys():
                 if metric_type.startswith('coherence_'):
@@ -78,9 +82,6 @@ class BERTopicModelEvaluator:
 
             metric_df = pd.DataFrame(model_metric_data)
             topics_df = self.get_model_topics_df(model_type)
-            
-            if topics_df is None:
-                continue
             
             total_df = pd.concat([metric_df, topics_df], axis=1)
             
