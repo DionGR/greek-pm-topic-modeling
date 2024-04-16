@@ -44,23 +44,18 @@ class BERTopicModelEvaluator:
 
         self.topics_df = pd.DataFrame(columns=["model"] + topic_cols)
 
-    def train(self):
-        for model_type, model in self.models.items():
-            print("Training model: ", model_type)
-            topics, _ = model.fit_transform(self.dataset)
-            print("Model training complete.")
-            self.model_outputs[model_type] = model
-            self.model_topics[model_type] = topics
-            
-        self.trained = True
 
     def evaluate(self):
-        if not self.trained:
-            self.train()
-
         for model_type, model in self.models.items():
-            print("Evaluating model: ", model_type)
             
+            print("Training model: ", model_type)
+            topics, _ = model.fit_transform(self.dataset)
+            self.model_outputs[model_type] = model
+            self.model_topics[model_type] = topics
+            print("Model training complete.")
+
+            
+            print("Evaluating model: ", model_type)
             model_output_list = self.generate_topics_list(self.model_topics[model_type], model)
             model_output = {'topics': model_output_list}
             model_metric_data = {'model': [model_type]}
@@ -82,14 +77,17 @@ class BERTopicModelEvaluator:
                 model_metric_data[metric_type] = [score]
 
             metric_df = pd.DataFrame(model_metric_data)
+            topics_df = self.get_model_topics_df(model_type)
+            total_df = pd.concat([metric_df, topics_df], axis=1)
+            
             self.evaluated[model_type] = True
             self.evaluation_df = pd.concat([self.evaluation_df, metric_df], ignore_index=True)
             print(f"Model {model_type} evaluated, generated {len(model_output_list)} topics.")
             
-            metric_df.to_csv(f"models/bertopic/data/evaluation/{self.granularity}_gran/individual/{model_type}.csv")
+            total_df.to_csv(f"data/optimization/{self.granularity}_gran/individual/{model_type}.csv")
 
-        self.export_metrics(f"models/bertopic/data/evaluation/{self.granularity}_gran/evaluation_results.csv")
-        self.export_topics(f"models/bertopic/data/evaluation/{self.granularity}_gran/topics_results.csv")
+        # self.export_metrics(f"models/bertopic/data/evaluation/{self.granularity}_gran/evaluation_results.csv")
+        # self.export_topics(f"models/bertopic/data/evaluation/{self.granularity}_gran/topics_results.csv")
 
         return self.evaluation_df, self.topics_df
     
@@ -98,6 +96,17 @@ class BERTopicModelEvaluator:
 
     def export_metrics(self, path):
         self.evaluation_df.to_csv(path)
+        
+    def get_model_topics_df(self, model_type):
+        topic_data = {"model": [model_type]}
+        topics = self.model_topics[model_type]
+        topic_words = self.generate_topics_list(topics, self.model_outputs[model_type])
+        for i, topic in enumerate(topic_words):
+            topic_data["topic_" + str(i)] = [topic]
+            
+        topics_df = pd.DataFrame(topic_data)
+        
+        return topics_df
 
     def export_topics(self, path):
         for model_type, model in self.models.items():
@@ -107,13 +116,9 @@ class BERTopicModelEvaluator:
                 print(f"Skipping topic export for model {model_type} as it was not evaluated.")
                 continue
 
-            topic_data = {"model": [model_type]}
-            topics = self.model_topics[model_type]
-            topic_words = self.generate_topics_list(topics, model)
-            for i, topic in enumerate(topic_words):
-                topic_data["topic_" + str(i)] = [topic]  # Wrap topic in a list
+            topics_df = self.get_model_topics_df(model_type)
                 
-            self.topics_df = pd.concat([self.topics_df, pd.DataFrame(topic_data)], ignore_index=True)
+            self.topics_df = pd.concat([self.topics_df, topics_df], ignore_index=True)
         self.topics_df.to_csv(path)
 
     @staticmethod
