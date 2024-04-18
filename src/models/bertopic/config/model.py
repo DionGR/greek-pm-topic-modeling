@@ -34,3 +34,17 @@ vectorizer_params = {
 c_tfidf_params = {
     "reduce_frequent_words": True
 }
+
+""" Dimensionality Reduction parameters """
+umap_params_doc = {
+    "n_components": 15,
+    "n_neighbors": 15,
+    "min_dist": 0.2
+}
+
+""" Clustering parameters """
+hdbscan_params_doc = {
+    "min_cluster_size": 7,
+    "metric": "euclidean",
+    "prediction_data": False
+}
