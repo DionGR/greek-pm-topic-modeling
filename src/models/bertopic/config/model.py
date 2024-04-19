@@ -4,7 +4,6 @@ from spacy.lang.en.stop_words import STOP_WORDS as en_stop
 from octis.evaluation_metrics.diversity_metrics import TopicDiversity
 from octis.evaluation_metrics.similarity_metrics import RBO, PairwiseJaccardSimilarity
 
-
 TOP_K = 7
 NUM_TOPICS = 30
 STOPWORDS = list(set(el_stop).union(set(en_stop)))
@@ -48,3 +47,9 @@ hdbscan_params_doc = {
     "metric": "euclidean",
     "prediction_data": False
 }
+
+""" KeyBERTInspired parameters """
+TOP_N_WORDS = 50
+
+""" MMR parameters """
+DIVERSITY = 0.5

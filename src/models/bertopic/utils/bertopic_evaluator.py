@@ -15,7 +15,8 @@ class BERTopicModelEvaluator:
                  dataset: List[str],
                  topics: int = 10, 
                  top_k: int = 7,
-                 granularity: str = 'docs'
+                 granularity: str = 'docs',
+                 mode: str = 'optimize'
                  ):
 
         self.models = models
@@ -27,6 +28,7 @@ class BERTopicModelEvaluator:
         self.model_outputs = {}
         self.model_topics = {}
         self.granularity = granularity
+        self.mode = mode
         
         self.evaluated = {}
         for model_type, _ in self.models.items():
@@ -89,12 +91,18 @@ class BERTopicModelEvaluator:
             self.evaluation_df = pd.concat([self.evaluation_df, metric_df], ignore_index=True)
             print(f"Model {model_type} evaluated, generated {len(model_output_list)} topics.")
             
-            total_df.to_csv(f"data/optimization/{self.granularity}_gran/individual/{model_type}.csv")
+            if self.mode == 'optimize':
+                total_df.to_csv(f"data/optimization/{self.granularity}_gran/individual/{model_type}.csv")
+            else:
+                total_df.to_csv(f"models/bertopic/data/evaluation/final_evaluation_results.csv")
 
         # self.export_metrics(f"models/bertopic/data/evaluation/{self.granularity}_gran/evaluation_results.csv")
         # self.export_topics(f"models/bertopic/data/evaluation/{self.granularity}_gran/topics_results.csv")
 
-        return self.evaluation_df, self.topics_df
+        if self.mode == 'optimize':
+            return self.evaluation_df, self.topics_df
+        else:
+            return self.evaluation_df, self.models
     
     def export_df(self, df, path):
         df.to_csv(path)
