@@ -10,6 +10,15 @@ from tqdm import tqdm
 
 
 class WebScraper:
+    """
+    Code adapted from
+    https://github.com/kritonp/primeminister-speeches-scrapper
+    and completely re-written to be functioning and more modular, 
+    as the original code was not working
+    
+    With permission from the original author:
+    https://github.com/kritonp/primeminister-speeches-scrapper/issues/1
+    """
     def __init__(self, base_url):
         self.base_url = base_url
         self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"

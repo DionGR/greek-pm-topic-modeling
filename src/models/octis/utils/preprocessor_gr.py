@@ -15,6 +15,11 @@ pipeline = stanza.Pipeline(**stanza_greek_config)
 
 
 class GreekStanzaPreprocessor:
+    """ Code re-written and adapted from
+    https://github.com/MIND-Lab/OCTIS/blob/master/octis/preprocessing/preprocessing.py
+    
+    For compatability with OCTIS with our improved approach to preprocessing Greek text.
+    """
     
     def __init__(self, vocabulary: List[str] = None,
                     min_df: float = 0.0, max_df: float = 1.0, min_chars: int = 2, min_words: int = 10,
