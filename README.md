@@ -6,8 +6,9 @@ In this project we compare the performance of generative and neural topic modeli
 
 ## How to run the code
 1. Clone the repository
-2. Install the required packages from the requirements.txt file
-3. Run the code in the following order:
+2. Install the required packages from the requirements.txt file using:
+```pip install -r requirements.txt && pip install octis --no-dependencies```
+4. Run the code in the following order:
     - [OPTIONAL] Run `load_dataset.ipynb` if you do **not** wish to use the dataset we provide.
         - Additionally, you will need to re-optimize the hyperparameters for the models.
     - Run `1_data_analysis.ipynb` to perform exploratory data analysis.
