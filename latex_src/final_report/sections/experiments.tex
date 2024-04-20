@@ -1,0 +1,71 @@
+\section{Experiments}
+\label{sec:Experiments}
+In this section, all the results derived from our analysis and experimentation will be presented.
+
+\subsection{Quantitative Results}
+\label{sec:QuantRes}
+In this section, result metrics from all the models tested will be presented.
+\begin{table}[H]
+\centering
+\caption{Quantitative Topic Evaluation Metrics for All Models}
+\begin{tabular}{@{}p{1.5cm}cccc@{}}
+\toprule
+Model & $\text{Coherence}_{CV}$ & $\text{Coherence}_{UMASS}$ & $\text{Diversity}_{TOPIC}$ & $\text{Similarity}_{PJS}$ \\ \midrule
+LSI & 0.5585 & -1.3672 & 0.5714 & 0.0334 \\
+LDA & 0.6418 & -1.3635 & 0.7762 & 0.0132 \\
+HDP & 0.4650 & -2.2493 & 0.4905 & 0.0162 \\
+NMF & 0.5703 & -1.6358 & 0.5143 & 0.0350 \\
+ProdLDA & \textbf{0.6782} & -2.8220 & 0.8857 & 0.0069 \\
+BERTopic & 0.5996 & \textbf{-0.5838} & 0.9523 & 0.0020 \\
+BERTopic+ & 0.2903 & -0.6087 & \textbf{0.9714} & \textbf{0.0012} \\ 
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+  \small
+  \item \textit{BERTopic+ refers to the BERTopic model with additional Topic Representation Tuning as mentioned in \ref{sec:topicrep}.}
+\end{tablenotes}
+\label{tab:quant_metrics}
+\end{table}
+
+\subsection{Qualitative Results}
+\label{sec:experimentalResults} 
+In this section, qualitative results that hold a weight in the empirical evaluation will be presented.
+\begin{table}[H]
+\caption{Top 8 most common topics for the best performing models}
+\label{tab:best_model_topics}
+\centering
+{\footnotesize 
+\begin{tabular}{|c|m{4.5cm}|m{4.5cm}|m{4.5cm}|}
+\hline
+\textbf{Topic} & \textbf{ProdLDA} & \textbf{BERTopic+} & \textbf{BERTopic} \\
+\hline
+1 & \textgreek{υποχρεούμαι εκκαθάριση προθύρτω λεπτό υπερχρεώνω στόμα απαριθμώ αναλυτής αντικειμενικά} & \textgreek{κυβέρνησης λύση κράτος μεταρρυθμίσεις χρέους ξέρετε εθνική} & democracy reforms \textgreek{ευρώ περιοχή ανάπτυξης ευρωπαϊκό συμφωνία} \\
+\hline
+2 & \textgreek{ενεργειακός προεδρία οδηγία κανονισμός απώτερος έτοιμος πολυετής υιοθέτηση μετανάστευση ανεργία} & \textgreek{σταθερότητα μνημόνια κυβέρνησης βουλή μεταρρυθμίσεις χρέους ελληνικός λαός} & \textgreek{τσίπρα εκλογές μητσοτάκη συριζα ευρώ κύριε μητσοτάκη κυρίες κύριοι} \\
+\hline
+3 & \textgreek{εταίρος διαπραγμάτευση ρύθμιση ριζοσπαστικός διοίκηση ασφυκτικός θεσμικός ευρωζώνη διεκδίκηση φορολογικός} & \textgreek{συστήματος υγείας γιατρούς νοσηλευτές κλίνες μεθ νοσοκομείων υγείας βασίλης εμβολιασμός εντατικής} & \textgreek{υγείας νοσοκομείο σύστημα υγείας νοσοκομεία εμβολιασμού εθνικό σύστημα σύστημα} \\
+\hline
+4 & \textgreek{ελευθερία δημοκρατικός ανοχή ενάντια ρατσισμός τάξη στερεότυπα εξτρεμισμός εχθρός ήθος} & \textgreek{πρωθυπουργός αντώνης δημοκρατία προνομιακός εθνικά συμφέροντα απλώς εαβ προεδρία} & que de en la el \textgreek{σαμαράς δημοκρατίες} \\
+\hline
+5 & \textgreek{εκκαθάριση υποχρεούμαι καταστροφικά στόμα προθύρτω γραφήχρηματιστήριο όμοια επιμερίζω} & \textgreek{κατώτατου μισθού πρωτογενής νέα καπ κατώτατου κτηνοτρόφων κλάδο εστίασης επιχειρήσεις} & \textgreek{αγρότες αγροτικής προϊόντα αγροτική πρωτογενή τομέα προϊόντων αναπηρία} \\
+\hline
+6 & \textgreek{νοσοκομείο προσωπικό γιατρός περίθαλψη πρωτοβάθμιος ασθενής καρκίνος διακυβέρνησης νοσηλευτής διοικητής} & \textgreek{φωτιές διαχείρισης κρίσεων πολιτικής προστασίας εκαβ πυροσβεστικής προστασίας πολίτη πλημμύρες} & \textgreek{πολιτικής προστασίας προστασίας εκαβ πολιτική προστασία πυροσβεστικής πυρκαγιές αστυνομίας} \\
+\hline
+7 & \textgreek{πόλη μετρό μουσείο δρομολογώ χιλιόμετρο ολυμπιακός οδικός σταθμός αθλητισμός ανάπλαση} & \textgreek{μεταναστευτικού μετανάστευσης ασύλου λύση σύμφωνο μετανάστευση εε τουρκίας ταυτοποίησης ροές} & frontex \textgreek{ροές πρόσφυγες τουρκία σύνορα μετανάστευση συνόρων} \\
+\hline
+8 & \textgreek{χρειάζονται προσθέστε πίνακας των εμφανίσεων} & \textgreek{δυτική μακεδονία ανανεώσιμες πηγές υγροποιημένου ελπε αγωγός} & \textgreek{αερίου ενέργειας φυσικού αερίου φυσικού αέριο φυσικό αέριο φυσικό} \\
+\hline
+\end{tabular}
+}
+\begin{tablenotes}
+  \small
+  \item \textit{BERTopic+ refers to the BERTopic model with additional Topic Representation Tuning as mentioned in \ref{sec:topicrep}. Table is available in English at Appendix \ref{sec:appExpBest} Table \ref{appTab:english_topics}.}
+\end{tablenotes}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\caption[Document-Topic Plot]{Document-Topic Distribution Plot for BERTopic+}
+\includegraphics[width=1\columnwidth]{figs/document_topic_plot.png}
+\label{fig:doc_topic_plot}
+\end{figure}

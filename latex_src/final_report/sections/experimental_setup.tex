@@ -1,0 +1,203 @@
+\section{Experimental Setup}
+\label{sec:ExpSetup}
+
+In this section we will go over how the models were set up with their parameters as well as justify and reason about the choices made for their initialization.
+
+\subsection{Evaluation Metrics in Topic Modeling}
+\label{sec:eval_metrics}
+As seen in Sections \ref{sec:topicCoherence}, \ref{sec:topicDiversity} and \ref{sec:topicSimilarity} there is a plethora of quantitative metrics for evaluation of topic models. However, these metrics are oftentimes incoherent and have no universal ground-truth value - as explained by \cite{Hoyle;Goel;Hian-Cheong;Peskov;Boyd-Graber;Resnik:21}. It is the case that theoretically perfect values sometimes produce questionable topics and theoretically not-so-perfect values produce topics that make much more sense to a human evaluator.
+
+This curse of topic model evaluation was quite apparent in our experiments and a compromise was required so as to maintain scientific integrity. We observed that these metrics were quite successful in highlighting low-quality topic models, unlike when it came to finding the best model, something we used as a filtering measure. Throughout our experiments, and especially in hyper-parameter optimization, quantitative metrics were a necessary factor in finding the best model configuration. As such, our evaluation approach makes use of these metrics so as to highlight theoretically well-performing models and then using empirical evaluation so as to pick the best among the top-few best. Despite the array of metrics available to us, we decided to focus on two metrics for topic coherence, specificially the CV and UMass metrics, one metric for similarity, specifically the Pairwise Jaccard Similarity and the self-explanatory Topic Diversity metric. To better understand the relationships between these metrics as well as why others were omitted to avoid redundancy, see Appendix \ref{sec:appB} Figure \ref{appB:metric_correlations}.
+
+While this introduces an undesired subjectivity to our task, our research indicated that human evaluation was a necessary evil - one we are willing to accept for the sake of interpretable and cohesive results.
+
+\subsection{General Experimental Setup}
+\label{sec:experimentalSetup}
+
+Since we will be comparing the results of a few different algorithms, it is important to have a common baseline so as not to render the comparisons useless. As seen in Table \ref{tab:generalHyperparameters}, when the algorithm requires an amount of topics, or is able to limit them to that number, we opt for a maximum of 30, with BERTopic being the only one that follows the maximum rule and the rest of the algorithms generating exactly 30. 
+
+\begin{table}[H]
+    \centering    
+    \begin{minipage}{.5\linewidth}
+        \centering
+         \begin{tabular}{ls}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            Number of Topics & <=30 \\
+            Top K Words & 7 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{General Hyperparameters}
+\label{tab:generalHyperparameters}
+\end{table}
+
+The reason behind that choice - or compromise for some - is that while we are certain that there has been a plethora of significant events in the last decade, we would like to explore the bigger image of it all. At the same time, setting the amount of topics to a lower number would only result in vague and general topics such as "economy", "issues" or "crisis", which is not analytically interesting or unique.
+
+
+\subsection{OCTIS Experimental Setup}
+\label{sec:octisExpSetup}
+The OCTIS topic models at our availability provide a lot of customization and tuning capabilities through their hyperparameters. While this task seems infeasible for a large amount of algorithms and parameters, OCTIS offers a hyperparameter optimization foundation which can be used with the built-in algorithms so as to find the best possible setup. We built a wrapper which uses OCTIS' optimizer so that it automatically extracts the best parameters for multiple models and stores them in a file - ensuring that the general hyperparameters, as shown in Table \ref{tab:generalHyperparameters}, are common across all the experiments. The optimization's objective was the CV Coherence (\ref{sec:CVCoherence}) score, and specifically its maximization. 
+
+\begin{table}[H]
+    \centering
+    \caption{Hyperparameters for selected OCTIS Models}
+    
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{LSI}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            power\_iters & 6 \\
+            extra\_samples & 100 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}%
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{LDA}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            passes & 10 \\
+            alpha & 0.1179 \\
+            eta & None \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{HDP}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            alpha & 0.1341 \\
+            eta & 0.5 \\
+            gamma & 0.5 \\
+            tau & 32 \\
+            kappa & 0.5 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}%
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{Prod LDA}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            batch\_size & 64 \\
+            lr & 0.0037 \\
+            dropout & 0.0438 \\
+            num\_epochs & 100 \\
+            momentum & 0.6117 \\
+            num\_layers & 1 \\
+            num\_neurons & 236 \\
+            activation & softplus \\
+            solver & adam \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+\label{tab:octisHyperparam}
+\end{table}
+
+In Table \ref{tab:octisHyperparam}, we see the hyperparameters chosen for final experiments. The amount of experiments ran for OCTIS models was enormous - consuming approximately 5 hours of state-of-the-art hardware compute. The final values were selected not only based on quantitative measures but also empirical evaluation of the topics. 
+
+\subsection{BERTopic Experimental Setup}
+As mentioned in Section \ref{sec:bertopic}, the BERTopic pipeline allows for users to replace any of its sub-models and components, as well as their parameters. This will be the basis for our model and hyperparameter tuning. In similar fashion to OCTIS in Section \ref{sec:octisExpSetup}, we have created a custom optimization class that trains and evaluates multiple models in a hyperparameter space - extracting their results for further analysis. As BERTopic has a multi-step pipeline, we focused on the tuning of the dimensionality reduction and clustering models as they have the largest impact on the output topics. A total of 260 combination of hyper-parameters, with different dimensionality reduction models (PCA, t-SVD, None), were tested in the process of finding the best possible set - occupying SOTA graphics processing unit (NVIDIA RTX4090) for a total of 10 hours. Other models and parameters were initialized independently or prior to the tuning so as to set the baseline.
+
+\subsubsection{Embeddings and Sentence Transformers}
+Picking the right sentence transformer is key to getting the best out of BERTopic. The choices are infinite, however we narrowed it down to three options; BERTopic's default multilingual "paraphrase-multilingual-MiniLM-L12-v2" \citep{Reimers;Gurevych:19}, a Greek-Media-BERT-based sentence transformer "dimitriz/st-greek-media-bert-base-uncased" \citep{Zaikis;Kokkas;Vlahavas:23} and a Greek/English XLM-Roberta-based sentence transformer "lighteternal/stsb-xlm-r-greek-transfer" \citep{Papadopoulos;TUC;SSE:19}. Additionally, BERTopic documentation recommends finer granularity when using large texts. We will also experiment with sentence-level granularity, where each sentence becomes a document as far as the model is concerned. Sentence transformers are evaluated on a default BERTopic model (and sub-models) for uniformity.
+
+Through empirical evaluation, we concluded that "dimitriz/st-greek-media-bert-base-uncased" for document-level granularity performed the best - something not backed up by the metrics as it quantitatively performed the worst. Metrics and further insights on sentence-level granularity are present in Appendix \ref{sec:appB} Table \ref{appB:st_eval}.
+
+\subsubsection{Tokenizer and Weighting Scheme}
+
+For our tokenizer we will use the SKLearn's \citep{sklearn:11} CountVectorizer with the configuration from Table \ref{tab:bertopic_cv_config}, with the same stopwords as in the OCTIS configuration. As we see, we'll use soft max/min document frequency limits so as to filter extremes. Additionally, we'll have unigrams and bigrams so as to capture phrases in the corpus.
+
+BERTopic's default ClassTfidfTransformer will be the main weighting scheme, with the configuration shown in Table \ref{tab:bertopic_ws_config} - essentially reducing common words like a black-box.
+
+\begin{table}[H]
+    \centering
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{CountVectorizer}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            stopwords & $GR\cup EN$ \\
+            ngram\_range & (1,2) \\
+            max\_df & .95 \\
+            min\_df & .005 \\
+            \bottomrule
+        \end{tabular}
+          \label{tab:bertopic_cv_config}
+    \end{minipage}%
+    \begin{minipage}{.5\linewidth}
+        \centering
+        \subcaption{ClassTfidfTransformer}
+        \begin{tabular}{lc}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            reduce\_frequent\_words & True \\
+            \bottomrule
+        \end{tabular}
+         \label{tab:bertopic_ws_config}
+    \end{minipage}
+\end{table}
+
+\subsubsection{UMAP and HDBSCAN}
+The hour-long, compute-intensive optimization proved BERTopic's default choice solid when it comes to algorithms - UMAP and HDBSCAN performed the best. A set of optimal hyper-parameters was also extracted from the large search space. 
+
+Specifically, for UMAP, we optimized on the number of components, the number of neighbours and the minimum distance between the neighbours. More components results in a richer representation, but large dimensionalities affect the clustering process negatively. In Table \ref{tab:umap_config} we can look at the optimal configuration for UMAP.
+
+\begin{table}[H]
+    \centering    
+    \begin{minipage}{.5\linewidth}
+        \centering
+         \begin{tabular}{ls}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            n\_components & 15 \\
+            n\_neighbors & 15 \\
+            min\_dist & 0.2 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{UMAP Configuration}
+\label{tab:umap_config}
+\end{table}
+
+HDBSCAN's parameters yield much more significance, as they directly impact the amount and the quality of topics we will generate. The minimum cluster size directly affects the the number of clusters that will be generated, with lower values leading to more microclusters. Metric regards the distance metric that will be used for the construction of clusters, and the boolean on whether we want to use this model for predictions, which is out of our scope. The values can be seen in Table \ref{tab:hdbscan_config}.
+
+
+\begin{table}[H]
+    \centering    
+    \begin{minipage}{.5\linewidth}
+        \centering
+         \begin{tabular}{ls}
+            \toprule
+            Parameter & Value \\
+            \midrule
+            min\_cluster\_size & 7 \\
+            metric & euclidean \\
+            prediction\_data & False \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \caption{HDBSCAN Configuration}
+\label{tab:hdbscan_config}
+\end{table}
+
+\subsubsection{Topic Representation Model}
+\label{sec:topicrep}
+For the topic representation model we used a chain model consisting of KeyBERTInspired and MMR. More specifically we first extracted the top 50 words from each topic with KeyBERTInspired and we filtered those through MMR. We chose a diversity of 0.5 striking a balance between how relevant they should be for their corresponding topic and how diverse they need to be to each other. Additionally, for the labels of each topic we chose the top 3 words found through our chain model, after filtering to only keep words of a maximum length of 10. Since the representation model plays a purely qualitative role we found that topic labels with smaller words help with both the visualizations and the reading comprehension. More about our reasoning for topic representation model selection on Appendix \ref{sec:appendix_rep}.

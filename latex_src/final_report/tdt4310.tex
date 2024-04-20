@@ -1,0 +1,153 @@
+\documentclass[11pt]{article}
+\usepackage{tdt4310}
+\usepackage[greek,english]{babel}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}                     % Allow for non-ASCII input
+\usepackage[T1]{fontenc}                         % Use rich fonts
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{booktabs} % For prettier tables
+\usepackage{longtable} % If your table is too long for one
+\usepackage{geometry} % Set page margins
+
+\usepackage{svg}
+\usepackage[toc,page]{appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks, you can choose different colours for different types of links; the defult colours are as below
+\usepackage[colorlinks]{hyperref}
+\hypersetup{
+    linkcolor=black,	% internal cross-references; default red
+    urlcolor=blue,	% default magenta
+    citecolor=black,	% default green
+   }
+\urlstyle{same}	% if you want links in the same style as the rest of the text; default is typewriter style
+\usepackage{doi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics, tables and figures
+\usepackage{graphicx}                           
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{tcolorbox}
+\usepackage{framed}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\usepackage{subcaption}
+
+% nicer table dividers
+\usepackage{booktabs}
+\usepackage{threeparttable}
+
+% only needed if you want to pgfplots to draw figures
+%\usepackage{tikzsymbols}
+%\usepackage{pgfplots}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% comments and notes, useful while working on a draft - change the option 'draft' to 'disable' in the final version
+\usepackage[draft]{todonotes}
+\usepackage{verbatim}     % allow for longer comments
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY STUFF
+
+\usepackage[round]{natbib}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% uncomment if instead using biber as backend
+\begin{comment}
+\usepackage[backend=biber,
+            bibstyle=apa,
+            citestyle=authoryear,
+            natbib=true,
+            url=false,
+            doi=false,
+            hyperref=true,
+            apamaxprtauth=99,
+            maxcitenames=2,
+            language=british,
+            uniquelist=false,
+            ]{biblatex}         % Correct citations
+
+% Bibliography (+ hacks)
+\addbibresource{bib/references.bib}
+\addbibresource{bib/bibliography.bib}
+\DeclareLanguageMapping{british}{british-apa}
+\setlength\bibitemsep{2\itemsep}
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
+\let\citep\parencite
+\let\cite\textcite
+% Make the whole cite a hyperref
+\DeclareCiteCommand{\textcite}
+{\boolfalse{cbx:parens}}
+{\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{textcite}}}
+{\ifbool{cbx:parens}
+    {\bibcloseparen\global\boolfalse{cbx:parens}}
+    {}%
+    \multicitedelim}
+{\usebibmacro{textcite:postnote}}
+\DeclareCiteCommand{\parencite}[\mkbibparens]
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+    \printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+\end{comment}
+% end biber part
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HYPHENATION DEFINITIONS
+
+\usepackage{hyphenat}
+
+% add correct hyphenations as needed
+\hyphenation{hash-tag Sem-Eval}
+\hyphenation{cyber-bully cyber-bullying}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Comparative Analysis of Generative and Neural Topic Modeling Techniques Applied to Modern Greek Political Corpora}
+
+\author{
+  Nikolaos Giannakopoulos \and Dionysios Rigatos\\
+  Norwegian University of Science and Technology \\
+  Athens University of Economics and Business \\
+  {\tt \{nikolagi, dionysir\}@stud.ntnu.no}}
+
+\date{Report in TDT4310, NTNU, \today}
+\begin{document}
+\maketitle
+\begin{abstract}
+In this project, we explore a variety of topic modeling techniques with a focus on their application to a corpus of modern Greek political texts. We analyze and compare several classic generative models with state-of-the-art neural models, which provides an extensively modular framework for deep learning based topic modeling. By leveraging these sophisticated models, we aim to address the challenges of unsupervised topic modeling, such as their interpretability and incompatibility with quantitative metrics. Our approach involves a sophisticated experimental setup where models are fine-tuned and compared using a variety of topic coherence, diversity and similarity metrics. This study not only tests the effectiveness of different topic modeling techniques but also examines their application in a linguistically diverse dataset and the challenges that come with it - such as text pre-processing - providing insights that could benefit further research in the area of topic modeling for Greek corpora.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/related_work}
+\input{sections/architecture}
+\input{sections/experimental_setup}
+\input{sections/experiments}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+% include your own bib file like this:
+\bibliographystyle{plainnat}
+\bibliography{bibliography}
+
+\appendix
+\input{sections/appendix}
+% alternative, if using biber as backend
+% \printbibliography
+
+% It is not necessary to include any appendices, but if you do, add them at the very end of the document
+%\input{appendices/appendices}
+
+\end{document}

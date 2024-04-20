@@ -1,0 +1,82 @@
+\section{Theoretical Background}
+\label{sec:background}
+\subsection{Topic Modeling}
+Topic modeling is a statistical modeling technique utilized in the fields of natural language processing and text mining among others so as to identify and extract the topics or themes present within a large collection of documents. It operates on the premise of the distributional hypothesis as explained by \cite{Harris:54} - documents encompass a mixture of various topics that consist of frequently co-occurring words. 
+
+Implementations of such models are usually trained using unsupervised learning methods, thus allowing them to uncover more than what is known about a document by providing insights into large and unstructured text datasets by discovering the latent structures within them. 
+
+\subsection{Topic Diversity}
+\label{sec:topicDiversity}
+The Topic Diversity score measures the lexical diversity across topics in a corpora by examining the ratio of unique top-K words across all of the topics to the total number of top-K words.
+\begin{align*}
+TD = \frac{|\text{Unique\_TopK\_Words}|}{K \times |\text{Τopics}|}
+\end{align*}
+
+\subsection{Topic Coherence Metrics}
+\label{sec:topicCoherence}
+Topic Coherence is a quantitative assessment of how well topics can be explained by the corpora they were generated from. 
+\subsubsection{UMass Coherence}
+The UMass coherence score (\cite{Mimno;Wallach;Talley;Leenders;McCallum:11}) assesses topic quality by measuring how words that belong to a coherent topic are more likely to appear together in the same documents more frequently than words that do not belong to a coherent topic. As such, coherent topics will have word pairs that show a higher degree of co-occurrence and higher $C(t)$ values. It is formulated as such:
+
+\begin{align*}
+C(t; V(t)) = \sum_{m=2}^{M} \sum_{l=1}^{m-1} \log \left( \frac{D(v_{t,m}, v_{t,l}) + 1}{D(v_{t,l})} \right)
+\end{align*}
+\subsubsection{CV Coherence}
+\label{sec:CVCoherence}
+The CV coherence score (\cite{Roder;Both;Hinneburg:15}) measures the semantic similarity between high-scoring words in topics, considering a wide window of words instead of just adjacent words. This score uses Normalized Pointwise Mutual Information (NPMI) (\cite{Aletras;Stevenson:13}) and the cosine similarity between word vectors of the top-ranked words within the topics.
+
+\subsection{Topic Similarity Metrics} 
+\label{sec:topicSimilarity}
+Topic similarity is a quantitative assessment of how similar topics are to each other.
+
+\subsubsection{Pairwise Jaccard Similarity}
+The Pairwise Jaccard Similarity score, in the context of topic modeling, measures the similarity between different topics by comparing the sets of documents associated with each topic. The Jaccard Similarity Index (\cite{Jaccard:40}), calculated for two sets, is the ratio of the number of elements in the intersection of the sets to the number of elements in their union. Applied to topic modeling, if each topic is represented as a set of documents that prominently feature the topic, the Jaccard Index can quantify how similar two topics are based on their document overlap. A higher Jaccard score indicates a greater overlap and thus higher similarity between the topics.
+
+\subsection{Word Embeddings}
+Word embeddings \citep{mikolov2013efficient} are a class of techniques where words are represented by vectors of real numbers in a low-dimensional space. These vectors try to capture the semantic meaning of words and are constructed in such a way that semantically similar words are closer together in that vector space. Techniques like Continuous Bag-of-Words (CBOW) and skip-gram are used to learn these embeddings from large text corpora.
+
+\subsection{Clustering}
+Clustering refers to unsupervised machine learning techniques that group data points into clusters based on distance (e.g. Euclidean distance), or similarity (e.g. cosine similarity) measures. The goal is to organize data in such a way that those who share similar attributes are put in the same cluster.
+
+\subsection{Dimensionality Reduction}
+As dimensions increase we face something often referred to as the curse of dimensionality \citep{Bellman:57}. Traditional distance measures don't work and finding meaningful clusters becomes challenging. Dimensionality reduction refers to a set of techniques aimed at transforming data from a high-dimensional space to a lower one, while preserving the important characteristics of the data, so we can apply traditional distance measuring and clustering techniques. 
+
+\subsection{Word Weighting / TF-IDF}
+Word weighting refers to techniques used for calculating the importance of words within a set of texts (corpus). 
+
+The most popular amongst these techniques is Term Frequency - Inverse Document Frequency (TF-IDF) \citep{SALTON1988513}. Term Frequency $tf_{t,d}$ is a measure for how often a word appears in single document, while document frequency counts how rare a word is within a corpus by measuring the amount of documents that contain that word.
+
+\begin{equation}\label{tf-idf}
+W_{t,d} = tf_{t,d} \cdot \log(\frac{N}{df_t})
+\end{equation}
+
+\subsection{Transformer Architecture}
+Transformers \citep{vaswani2023attention} are a deep learning architecture relying on the concept of Attention \citep{bahdanau2016neural}. Self-attention allows the model to focus on different parts of the input sequence, by assigning different weights to different input tokens. These weights, in contrast to other types of Neural Networks, are not learned during training, but are computed based on the input sequence and can change for each input token. This allows the model to learn dependencies between tokens that are far apart in the input sequence, which is a key advantage of transformers compared to other architectures. 
+
+% \newcommand\emc{-~~~~}
+% \begin{table}[t!]
+% \centering
+% \caption{Example table (F$_1$-scores)}
+% \begin{tabular}{c|c|rrrrrr}
+% \toprule
+% Langs                       & Source                 & \multicolumn{1}{c}{Lang1} & \multicolumn{1}{c}{Lang2} & \multicolumn{1}{c}{Univ}                                                     & \multicolumn{1}{c}{NE}    & \multicolumn{1}{c}{Mixed} & \multicolumn{1}{c}{Undef} 
+% \\ \midrule
+% \multirow{5}{*}{EN-HI} & FB+TW                  & 54.22 & 22.00 & 19.70 & 4.00  & 0.05  & 0.03  \\
+%                        & FB                     & 75.61 & 4.17  & 18.00 & 2.19  & 0.02  & 0.01  \\  
+%                        & TW                     & 22.24 & 48.48 & 22.42 & 6.71  & 0.08  & 0.07  \\  
+%                        & Vyas                   & 54.67 & 45.27 & 0.06  & \emc  & \emc  & \emc  \\ 
+%                        & FIRE                   & 45.57 & 39.87 & 14.52 & \emc  & 0.04  & \emc  \\ \midrule
+% \multirow{2}{*}{EN-BN} & TW                     & 55.00 & 23.60 & 19.04 & 2.36  & \emc  & \emc  \\ 
+%                         &  FIRE                 & 32.47 & 67.53 & \emc  & \emc  & \emc  & \emc  \\ \midrule
+% EN-GU                  & FIRE                   & 5.01  & {\bf 94.99} & \emc  & \emc  & \emc  & \emc  \\ 
+% \midrule
+% DU-TR                  & Nguyen                 & 41.50 & 36.98 & 21.52 & \emc  & \emc  & \emc  \\ \midrule
+
+% EN-ES                  & \multirow{4}{*}{\rotatebox[origin=c]{90}{EMNLP}} 
+%                                                 & 54.79 & 23.50 & 19.35                                                    & 2.08  & 0.04  & 0.24  \\ 
+% EN-ZH                  &                        & 69.50 & 13.95 & 5.88                                                     & 10.60 & 0.07  & \emc     \\ 
+% EN-NE                  &                        & 31.14 & 41.56 & 24.41                                                    & 2.73  & 0.08  & 0.08  \\ 
+% AR-AR                  &                        & 66.32 & 13.65 & 7.29                                                     & 11.83 & 0.01  & 0.90    \\ \bottomrule
+% \end{tabular}
+% \label{tab:ExampleTable}
+% \end{table}
