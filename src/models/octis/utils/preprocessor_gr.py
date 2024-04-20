@@ -15,6 +15,11 @@ pipeline = stanza.Pipeline(**stanza_greek_config)
 
 
 class GreekStanzaPreprocessor:
+    """ Code re-written and adapted from
+    https://github.com/MIND-Lab/OCTIS/blob/master/octis/preprocessing/preprocessing.py
+    
+    For compatability with OCTIS with our improved approach to preprocessing Greek text.
+    """
     
     def __init__(self, vocabulary: List[str] = None,
                     min_df: float = 0.0, max_df: float = 1.0, min_chars: int = 2, min_words: int = 10,
@@ -80,16 +85,10 @@ class GreekStanzaPreprocessor:
                      "preprocessing-info": self.preprocessing_steps
                     }
         
-        train, test = train_test_split(range(len(final_documents)), test_size=0.15, random_state=1)
-        train, validation = train_test_split(train, test_size=0.10, random_state=1)
-
-        metadata["last-training-doc"] = len(train)
-        metadata["last-validation-doc"] = len(validation) + len(train)
-        
-        partitioned_corpus = [final_documents[doc] for doc in train + validation + test]
-        document_indexes = [document_indexes[doc] for doc in train + validation + test]
-        
-        return Dataset(partitioned_corpus, vocabulary=self.vocabulary, metadata=metadata, labels=final_labels,
+        return Dataset(final_documents,
+                       vocabulary=self.vocabulary,
+                       metadata=metadata, 
+                       labels=final_labels,
                         document_indexes=document_indexes)
 
         

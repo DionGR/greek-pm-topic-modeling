@@ -2,7 +2,7 @@ from skopt.space.space import Real, Categorical, Integer
 
 OPTIMIZATION_RESULT_PATH = "data/hyperparameter_opt/"
 
-TOP_K = 5
+TOP_K = 7
 NUM_TOPICS = 30
 CHUNKSIZE = 4000
 
@@ -47,7 +47,7 @@ search_space = {
         "num_layers": Integer(1, 5),
         "num_neurons": Integer(50, 500),
         "activation": Categorical({"relu", "softplus"}),
-        "solver": Categorical({"adam", "sgd"}),
+        "solver": Categorical({"adam", "sgd"})
     },
     "prod_lda": {
         "num_topics": Categorical({NUM_TOPICS}),
@@ -59,6 +59,6 @@ search_space = {
         "num_layers": Integer(1, 5),
         "num_neurons": Integer(50, 500),
         "activation": Categorical({"relu", "softplus"}),
-        "solver": Categorical({"adam", "sgd"}),
+        "solver": Categorical({"adam", "sgd"})
     }
 }

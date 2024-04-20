@@ -1,52 +1,54 @@
 from models.octis.config.optimization import NUM_TOPICS, CHUNKSIZE
 
 lsi_params = {"num_topics": NUM_TOPICS, 
-              "chunksize": CHUNKSIZE, 
-              "power_iters": 9, 
-              "extra_samples": 200
+              "chunksize": CHUNKSIZE,
+              "power_iters": 6,
+              "extra_samples": 100
               }
 
 nmf_params = {"num_topics": NUM_TOPICS, 
               "chunksize": CHUNKSIZE, 
               "kappa": 1.0,
-              "minimum_probability": 0.05431083873516954
+              "minimum_probability": 0.1902737479106116
               }
 
-lda_params = {"num_topics": NUM_TOPICS, 
+lda_params = {"num_topics": NUM_TOPICS,
               "chunksize": CHUNKSIZE, 
               "passes": 10, 
-              "alpha": 0.2454138992346559, 
+              "alpha": 0.11795881168296588, 
               "eta": None
               }
 
 hdp_params = {"chunksize": CHUNKSIZE, 
-              "alpha": 0.16115137541071503, 
-              "eta": 0.1, 
-              "gamma": 1.0, 
+              "alpha": 0.13419411242193027, 
+              "eta": 0.5,
+              "gamma": 0.5,
               "tau": 32, 
               "kappa": 0.5
               }
 
 neural_lda_params = {"num_topics": NUM_TOPICS, 
                      "batch_size": 64, 
-                     "lr": 0.00403528982962455, 
-                     "dropout": 0.014569283790608959,
-                     "num_epochs": 100, 
-                     "momentum": 0.8883848975940785,
+                     "lr": 0.004868879360882034,
+                     "dropout": 0.007311675749379744,
+                     "num_epochs": 200,
+                     "momentum": 0.8929994385857404,
                      "num_layers": 1, 
-                     "num_neurons": 136, 
+                     "num_neurons": 285,
                      "activation": "softplus",
-                     "solver": "adam"
+                     "solver": "adam",
+                     "use_partitions": False
                      }
 
-prod_lda_params = {"num_topics": NUM_TOPICS, 
-                   "batch_size": 64, 
-                   "lr": 0.003772716556963602,
-                   "dropout": 0.3387154564371324, 
-                   "num_epochs": 100, 
+prod_lda_params = {"num_topics": NUM_TOPICS,
+                   "batch_size": 64,
+                   "lr": 0.003772716556963602, 
+                   "dropout": 0.04387154564371324, 
+                   "num_epochs": 175, 
                    "momentum": 0.6117497103810823,
                    "num_layers": 1, 
-                   "num_neurons": 232,
+                   "num_neurons": 236, 
                    "activation": "softplus",
-                   "solver": "adam"
+                   "solver": "adam",
+                    "use_partitions": False
                    }
